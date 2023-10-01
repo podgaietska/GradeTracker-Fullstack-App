@@ -1,0 +1,86 @@
+{% load static %}
+<div class="sidebar">
+    <div class="sidebar-brand-container flex-center">
+      <a class="title" href="#">GradeTracker</a>
+      <div class="burger-menu">
+        <i class='bx bx-menu sidebar-toggle' id="sidebar-toggle"></i>
+      </div>
+    </div>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" href="{%url 'gradeapp' %}">
+              Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              Orders
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              Products
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              Customers
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              Reports
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              Integrations
+            </a>
+          </li>
+        </ul>
+
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 text-body-secondary text-uppercase">
+          <span>My Courses</span>
+          <a class="add-course-sidebar" href="{% url 'add-course' %}" aria-label="Add a new report">
+            +
+          </a>
+        </h6>
+        <ul class="nav flex-column mb-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              ENSF 462
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              ENSF 461
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              ENSF 460
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              ENSF 480
+            </a>
+          </li>
+        </ul>
+
+        <hr class="my-3">
+
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              Settings
+            </a>
+          </li>
+          <li class="nav-item">
+            <form action="{% url 'logout' %}" method="POST">
+              {% csrf_token %}
+              <input class="nav-link" type="submit" value="Sign out"/>
+            </form>
+          </li>
+        </ul>
+  </div>
