@@ -1,0 +1,54 @@
+const gradingComponents = document.querySelector('#grading-components');
+const addComponentBtn = document.querySelector('#add-component');
+
+console.log('js linked');
+
+function createNewComponent() {
+    console.log('button pressed');
+    const newComponentDiv = document.createElement('div');
+    newComponentDiv.classList.add('grading-component');
+    newComponentDiv.classList.add('added-component');
+    newComponentDiv.innerHTML = `
+    <div class="form-group">
+        <select class="form-control" name="grading-component[]">
+            <option name="grading-component[]" value="">Grading Component</option>
+        </select>
+    </div>
+    <div class="form-group weight">
+        <label for="">Component Weight</label>
+        <input type="number" name="weight[]" class="form-control form-control-sm">
+    </div>                                
+    <a class="btn remove-component">x</a>
+    `
+    gradingComponents.appendChild(newComponentDiv);
+
+    $.get('get-grading-components', function(data){
+        const selectElement = newComponentDiv.querySelector('select[name="grading-component[]"]');
+    
+        console.log(data);
+        data.forEach(function(gradingComponentName){
+            const option = document.createElement('option');
+            option.value = gradingComponentName;
+            option.textContent = gradingComponentName;
+            selectElement.appendChild(option);
+        })
+    })
+
+};
+
+
+addComponentBtn.addEventListener('click', createNewComponent);
+
+document.addEventListener('click', function (e) {
+    // Check if the clicked element has the class .remove-component
+    if (e.target.classList.contains('remove-component')) {
+        // Access the parent element of the clicked button (the grading component)
+        const gradingComponent = e.target.parentElement;
+
+        // Perform actions to delete the grading component
+        // For example, you can remove it from the DOM
+        gradingComponent.remove();
+
+        // You can also send an AJAX request to delete it from the server if needed
+    }
+});

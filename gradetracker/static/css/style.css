@@ -7,7 +7,13 @@
     --grey3: #f7f7f9;
     --grey4: #ececee;
     --greytext: #898888;
-    --darkblue: #252d33;
+    --blue: #156FE6;
+    --bluetext: #004AAD;
+    --green: #00BF63;
+    --greentext: #008947;
+    --red: #FF3131;
+    --redtext: #CF1D1D;
+
   }
 
   a{
@@ -88,7 +94,228 @@
     top: 3.4rem;
     width: 100%;
     height: 100%;
-    padding: 4rem 8rem;
+    padding: 2rem;
     z-index: 0;
-    padding-left: 30%;
+    padding-left: 25%;
+}
+
+.page-title{
+    color: black;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+}
+
+/* Add Course Page */
+
+.add-course-window{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.tips-on-adding{
+    width: 25%;
+    height: 100%;
+}
+
+.tip{
+    background: white;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    border: 1px solid var(--grey2);
+    margin-bottom: 1rem;
+}
+
+.tip p{
+    font-size: 0.9rem;
+}
+
+
+.add-course-card{
+    background: white;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--grey2);
+    width: 70%;
+    height: 75%;
+    display: flex;
+    flex-direction: row;
+}
+
+.add-course-card form{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.add-course-card .separator{
+    background: var(--grey2);
+    width: 1px;
+    height: 100%;
+}
+
+.course-information{
+    width: 30%;
+}
+
+.course-details{
+    width: 55%;
+    position: relative;
+}
+
+.form-group{
+    margin-bottom: 1rem;
+    padding: 0 0.5rem;
+}
+
+.add-course-card input, .add-course-card select{
+    border-radius: 0.3rem;
+}
+
+.course-information .form-group select{
+    width: 3.5rem;
+    height: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.course-information .form-group input{
+    width: 100%;
+    height: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.course-information .input-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.add-course-card label{
+    font-size: 0.9rem;
+    color: var(--greytext);
+    margin-bottom: 0.6rem;
+}
+
+.add-course-btn{
+    padding: 0.8rem;
+    width: 100%;
+    font-size: 0.9rem;
+    background: rgba(21, 111, 230, 0.3);
+    color: var(--bluetext);
+    border-radius: 0.3rem;
+    border: none;
+    margin: 2rem 1rem;
+}
+
+.course-information h3, .course-details h3{
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: var(--greytext);
+}
+
+.course-details-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.course-details button{
+    border: none;
+}
+
+#grading-components{
+    height: 90%;
+    overflow: auto;
+    border: 1px solid var(--grey2);
+    border-radius: 0.3rem;
+    padding: 1.5rem;
+
+}
+
+.grading-component{
+    border: 1px solid var(--grey2);
+    border-radius: 0.3rem;
+    padding: 0.8rem 1rem 0.5rem 1rem;
+    position: relative;
+}
+
+.grading-component-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.grading-component select{
+    height: 2.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+}
+
+.remove-component{
+    position: absolute;
+    top: 30%;
+    right: 0;
+    color: red;
+}
+
+.add-component{
+    position: absolute;
+    top: -0.5rem;
+    right: 0;
+    padding: 0.2rem 0.8rem;
+    background: rgba(0, 191, 99, 0.3);
+    color: var(--greentext);
+    border-radius: 0.3rem;
+}
+
+.add-component:hover{
+    background: rgba(0, 191, 99, 0.4);
+    color: var(--greentext);
+}
+
+.remove-component:hover{
+    color: rgb(203, 3, 3);
+}
+
+.grading-component input{
+    width: 25%;
+    height: 2.2rem;
+}
+
+.grading-component .form-group.weight{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+    width: 90%;
+}
+
+.grading-component .form-group.weight label{
+    margin-right: 0.8rem;
+}
+
+.added-component{
+    margin-top: 1rem;
+}
+
+/* Alerts */
+.alert{
+    font-size: 0.9rem;
+}
+
+.error-message{
+    width: 70%;
 }

@@ -1,6 +1,8 @@
 const usernameField = document.querySelector('#usernameField');
 const feedbackField = document.querySelector('.invalid-feedback');
 
+console.log(usernameField);
+
 const emailField = document.querySelector('#emailField');
 const emailFeedbackField = document.querySelector('.email-invalid-feedback');
 

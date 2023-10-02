@@ -1,7 +1,98 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
+        <h1 class="page-title">Add course<h1/>
+        <div class="error-message">
+            {% include 'partials/_messages.html' %}
+        </div>
+        
+        <div class="add-course-window">
+            <div class="add-course-card">
+                <form action="{% url 'add-course' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="course-information">
+                        <h3>COURSE INFORMATION</h3>
+                        <div class="form-group">
+                            <label for="">Course Code</label>
+                            <input type="text" name="code" class="form-control form-control-sm" value="{{values.code}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Course Name</label>
+                            <input type="text" name="name" class="form-control form-control-sm" value="{{values.name}}">
+                        </div>
+                        <div class="input-row">
+                            <div class="form-group select">
+                                <label for="">Lecture Section</label>
+                                <select class="form-control" name="lecture-section">
+                                    <option name="lecture-section" value="-">-</option>
+                                    <option name="lecture-section" value="L01">L01</option>
+                                    <option name="lecture-section" value="L02">L02</option>
+                                    <option name="lecture-section" value="L03">L03</option>
+                                    <option name="lecture-section" value="L04">L04</option>
+                                    <option name="lecture-section" value="L05">L05</option>
+                                </select>
+                            </div>
+                            <div class="form-group select">
+                                <label for="">Lab Section</label>
+                                <select class="form-control" name="lab-section">
+                                    <option name="lab-section" value="-">-</option>
+                                    <option name="lab-section" value="B01">B01</option>
+                                    <option name="lab-section" value="B02">B02</option>
+                                    <option name="lab-section" value="B03">B03</option>
+                                </select>                            
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="form-group select">
+                                <label for="">Seminar Section</label>
+                                <select class="form-control" name="seminar-section">
+                                    <option name="seminar-section" value="-">-</option>
+                                    <option name="seminar-section" value="S01">S01</option>
+                                    <option name="seminar-section" value="S02">S02</option>
+                                    <option name="seminar-section" value="S03">S03</option>
+                                </select>                             
+                            </div>
+                        </div>
+                        <input type="submit" value="Submit" class="add-course-btn">
+                    </div>
+                    <div class="separator"></div>
+                    <div class="course-details">
+                        <h3>COURSE COMPONENTS</h3>
+                        <div id="grading-components">
+                            <div class="grading-component">
+                                <div class="form-group">
+                                    <select class="form-control" name="grading-component">
+                                        <option name="grading-component" value="-">Grading Component</option>
+                                        {% for grading_component in grading_components %}
+                                        <option name="grading-component" value="{{grading_component.name}}">{{grading_component.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group weight">
+                                    <label for="">Component Weight</label>
+                                    <input type="number" name="weight" class="form-control form-control-sm">
+                                </div>                                
+                                <a class="btn remove-component">x</a>
+                            </div>
+                        </div>
+                        <a class="btn add-component" id="add-component" >Add</a>
+                    </div> 
+                </form>
+            </div>
+            <div class="tips-on-adding">
+                <div class="tip">
+                    <h5>Tip 1</h5>
+                    <p>If you don't have a lab or a seminar for the class, that's ok! Just leave the field blank.</p>
+                </div>
+                <div class="tip">
+                    <h5>Tip 2</h5>
+                    <p>In the grading component field, select the option that best describes the component in your class.<br/> <br/> In the component weight field, input a value between 0 and 1 to represnt the wight in percentages </p>
+                </div>
+            </div>
+        </div>
 
-<h1>Add course<h1/>
-    
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'js/addGradingComponent.js' %}"></script>
+
 {% endblock %}
