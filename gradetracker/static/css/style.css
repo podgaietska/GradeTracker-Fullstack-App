@@ -26,6 +26,18 @@
     align-items: center;
   }
 
+  h4{
+    font-weight: 600;
+    margin-bottom: 0;
+  }
+
+  p{
+    margin: 0;
+  }
+
+  h6{
+    margin: 0;
+  }
 /* Top Nav */
 
 .top-nav{
@@ -94,22 +106,21 @@
     top: 3.4rem;
     width: 100%;
     height: 100%;
-    padding: 2rem;
+    padding: 1rem;
     z-index: 0;
     padding-left: 25%;
 }
 
-.page-title{
-    color: black;
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
-}
 
 /* Add Course Page */
+.add-course-title{
+    margin-bottom: 1.2rem;
+    margin-top: 0.5rem;
+}
 
 .add-course-window{
     height: 100%;
-    width: 100%;
+    width: 95%;
     display: flex;
     justify-content: space-between;
 }
@@ -127,10 +138,37 @@
     margin-bottom: 1rem;
 }
 
-.tip p{
-    font-size: 0.9rem;
+.tip h5{
+    font-weight: 800;
+    width: fit-content;
+    padding: 0.2rem 0.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.3rem;
 }
 
+.tip:nth-child(1) h5{
+    color: #FFBD59;
+    background: rgba(255, 189, 89, 0.3);
+}
+
+.tip:nth-child(1) span{
+    color: #FFBD59;
+}
+
+.tip:nth-child(2) h5{
+    color: #0097B2;
+    background: rgba(0, 151, 178,0.3);
+}
+
+.tip:nth-child(2) span{
+    color: #0097B2;
+}
+
+.tip p{
+    font-size: 0.8rem;
+}
 
 .add-course-card{
     background: white;
@@ -201,19 +239,19 @@
 
 .add-course-card label{
     font-size: 0.9rem;
-    color: var(--greytext);
+    color: black;
     margin-bottom: 0.6rem;
 }
 
 .add-course-btn{
     padding: 0.8rem;
     width: 100%;
-    font-size: 0.9rem;
+    font-size: 1rem;
     background: rgba(21, 111, 230, 0.3);
     color: var(--bluetext);
     border-radius: 0.3rem;
     border: none;
-    margin: 2rem 1rem;
+    margin: 0.8rem;
 }
 
 .course-information h3, .course-details h3{
@@ -246,7 +284,6 @@
     border: 1px solid var(--grey2);
     border-radius: 0.3rem;
     padding: 0.8rem 1rem 0.5rem 1rem;
-    position: relative;
 }
 
 .grading-component-header{
@@ -261,14 +298,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 90%;
+    width: 100%;
 }
 
 .remove-component{
-    position: absolute;
-    top: 30%;
-    right: 0;
-    color: red;
+    background: rgba(212, 31, 31, 0.3);
+    border-radius: 0.3rem;
+    padding: 0.3rem;
+    color: #D41F1F;
+    font-size: 0.9rem;
 }
 
 .add-component{
@@ -287,7 +325,8 @@
 }
 
 .remove-component:hover{
-    color: rgb(203, 3, 3);
+    color: #D41F1F;
+    background: rgba(212, 31, 31, 0.4);
 }
 
 .grading-component input{
@@ -298,13 +337,14 @@
 .grading-component .form-group.weight{
     display: flex;
     flex-direction: row;
-    justify-content: end;
+    justify-content: space-between;
     align-items: center;
-    width: 90%;
+    width: 100%;
+    margin-bottom: 0.3rem;
 }
 
 .grading-component .form-group.weight label{
-    margin-right: 0.8rem;
+    width: 20%;
 }
 
 .added-component{
@@ -319,3 +359,298 @@
 .error-message{
     width: 70%;
 }
+
+/* Dashboard */
+
+/* Course List */
+.course-list-container{
+    height: fit-content;
+}
+
+.course-list{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.course-list-item{
+    width: 15%;
+    height: 2.8rem;
+    background: white;
+    border-radius: 0.4rem;
+    border: 1.5px solid var(--grey2);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 0.5rem;
+}
+
+.class-identifier{
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    margin-right: 0.4rem;
+    background: red;
+}
+
+.course-list .course-list-item:nth-child(1) .class-identifier{
+    background: rgba(255, 189, 89);
+}
+
+.course-list .course-list-item:nth-child(2) .class-identifier{
+    background: rgba(0, 151, 178);
+}
+
+.course-list .course-list-item:nth-child(3) .class-identifier{
+    background: rgba(255, 87, 87);
+}
+
+.course-list .course-list-item:nth-child(4) .class-identifier{
+    background: rgba(0, 191, 99);
+}
+
+.course-list .course-list-item:nth-child(5) .class-identifier{
+    background: rgba(21, 111, 230);
+}
+    
+.course-list-item:not(:nth-child(1), :nth-child(6)){
+    margin-left: 2.2rem;
+}
+
+/* Grid dashboard */
+.grid-container{
+    display: grid;
+    grid-template-columns: 1.6fr 0.2fr 1.2fr;
+    grid-template-rows: 1.5fr 0.2fr 1fr 0.2fr 1fr;
+    grid-gap: 0;
+    height: 75%;
+    width: 95%;
+}
+
+.grid-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-container .grid-box{
+    border: 1px solid var(--grey2);
+    border-radius: 0.4rem;
+}
+
+.grid-container .grid-box:nth-child(1){
+    grid-column: 1 / 2;
+    grid-row: 1 / 1;
+    background: white;
+}
+
+.grid-container .grid-box:nth-child(2){
+    grid-column: 3 / 4;
+    grid-row: 1 / 4;
+    background: white;
+}
+
+.grid-container .grid-box:nth-child(3){
+    grid-column: 1 / 2;
+    grid-row: 3 / 6;
+    background: white;
+}
+
+.grid-container .grid-box:nth-child(4){
+    grid-column: 3 / 4;
+    grid-row: 5 / 6;
+    background: white;
+}
+
+.view-window{
+    height: 100%;
+    width: 90%;
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.view-window-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--grey2);
+}
+
+.view-window-header span{
+    font-size: 0.8rem;
+    color: var(--greytext);
+    cursor: pointer;
+
+}
+
+/* Deadlines window */
+
+.upcoming-deadlines-container .view-window-body{
+    height: 100%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.calendar-event{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.5rem 0;
+    width: 100%;
+    height: fit-content;
+    border-bottom: 1px solid var(--grey2);
+    position: relative;
+}
+
+.calendar-event-date{
+    width: 15%;
+    height: 100%;
+    padding: 0.3rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.5rem;
+    background: rgba(21, 111, 230, 0.3);
+    border-radius: 0.3rem;
+    color: var(--bluetext);
+}
+.calendar-event-date h6{
+    margin-bottom: 0;
+    font-size: 0.8rem;
+}
+
+.calendar-event-info p{
+    font-size: 0.7rem;
+}
+
+.calendar-event .checkbox{
+    position: absolute;
+    right: 0;
+}
+
+.course-estimate{
+    text-align: center;
+    display: flex;
+    flex-direction: column;  
+}
+
+/* Grades Window */
+.grades-container .view-window-body{
+    height: 100%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0.3rem 1rem;
+}
+
+.grades-container .course-grade-row{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: fit-content;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.course-grade-breakdown{
+    text-align: center;
+    display: flex;
+    flex-direction: column;  
+}
+
+.course-grade-breakdown p, .course-estimate p{
+    font-size: 0.9rem;
+}
+
+#gained{
+    color: #00BF63;
+}
+
+#losing{
+    color: #D41F1F;
+}
+
+.view-window-body .course-grade-row .course-code{
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+    font-weight: 800;
+}
+
+.view-window-body .course-grade-row:nth-child(1) .course-code{
+    background: rgba(255, 189, 89, 0.3);
+    color: #FFBD59;
+}
+
+.view-window-body .course-grade-row:nth-child(2) .course-code{
+    background: rgba(0, 151, 178,0.3);
+    color: #0097B2;
+}
+
+.view-window-body .course-grade-row:nth-child(3) .course-code{
+    background: rgba(255, 87, 87, 0.3);
+    color: #FF5757;
+}
+
+.view-window-body .course-grade-row:nth-child(4) .course-code{
+    background: rgba(0, 191, 99, 0.3);
+    color: #00BF63;
+}
+
+.view-window-body .course-grade-row:nth-child(5) .course-code{
+    background: rgba(21, 111, 230, 0.3);
+    color: #156FE6;
+}
+
+/* To do list */
+.to-do-list-container .view-window-header{
+    border-bottom: none;
+    margin-bottom: 0.3rem;
+    justify-content: flex-start;
+}
+
+.add-todo-item-btn{
+    border: none;
+    background: rgba(0, 191, 99, 0.3);
+    color: var(--greentext);
+    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 0.3rem;
+    margin-left: 5%;
+}
+
+.todo-item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.5rem 0;
+    width: 100%;
+    height: fit-content;
+}
+
+.todo-name{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.todo-name span{
+    color: var(--bluetext);
+}
+
+.todo-item .checkbox{
+    width: 7%;
+} 
+
+
+

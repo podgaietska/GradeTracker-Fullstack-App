@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-        <h1 class="page-title">Add course<h1/>
+        <h4 class="add-course-title">Add New Course</h4>
         <div class="error-message">
             {% include 'partials/_messages.html' %}
         </div>
@@ -70,10 +70,10 @@
                                     </select>
                                 </div>
                                 <div class="form-group weight">
+                                    <a class="btn remove-component">Remove</a>
                                     <label for="">Component Weight</label>
-                                    <input type="number" name="weight" class="form-control form-control-sm">
+                                    <input type="number" name="weight" class="form-control form-control-sm" step="0.01" min="0" max="1">
                                 </div>                                
-                                <a class="btn remove-component">x</a>
                             </div>
                         </div>
                         <a class="btn add-component" id="add-component" >Add</a>
@@ -83,11 +83,11 @@
             <div class="tips-on-adding">
                 <div class="tip">
                     <h5>Tip 1</h5>
-                    <p>If you don't have a lab or a seminar for the class, that's ok! Just leave the field blank.</p>
+                    <p>If your class doesn’t have a lab or a seminar, not to worry! Just leave the field blank. But <span>make sure you enter the Lecture Section.</span> There are no classes with not lectures!</p>
                 </div>
                 <div class="tip">
                     <h5>Tip 2</h5>
-                    <p>In the grading component field, select the option that best describes the component in your class.<br/> <br/> In the component weight field, input a value between 0 and 1 to represnt the wight in percentages </p>
+                    <p>We tried to give you options of as many grading components as possible, but if we missed any, just <span>select one that fits the best!</span><br/> <br/> In the Component Weight field - <span>divide percentage weight of your component by 100</span>. This should give you a decimal number from 0 - 1. The weights of all of your components should add  up to 1. </p>
                 </div>
             </div>
         </div>

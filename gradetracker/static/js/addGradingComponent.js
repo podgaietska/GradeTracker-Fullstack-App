@@ -10,22 +10,21 @@ function createNewComponent() {
     newComponentDiv.classList.add('added-component');
     newComponentDiv.innerHTML = `
     <div class="form-group">
-        <select class="form-control" name="grading-component[]">
-            <option name="grading-component[]" value="">Grading Component</option>
+        <select class="form-control" name="grading-component">
+            <option name="grading-component" value="">Grading Component</option>
         </select>
     </div>
     <div class="form-group weight">
+        <a class="btn remove-component">Remove</a>
         <label for="">Component Weight</label>
-        <input type="number" name="weight[]" class="form-control form-control-sm">
+        <input type="number" name="weight" class="form-control form-control-sm" step="0.01" min="0" max="1">
     </div>                                
-    <a class="btn remove-component">x</a>
     `
     gradingComponents.appendChild(newComponentDiv);
 
     $.get('get-grading-components', function(data){
-        const selectElement = newComponentDiv.querySelector('select[name="grading-component[]"]');
+        const selectElement = newComponentDiv.querySelector('select[name="grading-component"]');
     
-        console.log(data);
         data.forEach(function(gradingComponentName){
             const option = document.createElement('option');
             option.value = gradingComponentName;

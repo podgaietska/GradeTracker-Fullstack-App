@@ -3,14 +3,148 @@
 {% block content %}
 
 {% include 'partials/_messages.html' %}
-<h1>Courses</h1>
+<h4>My Dashboard</h4>
+{% if courses.count %}
+<div class="course-list-container">
+    <ul class="course-list">
+        {% for course in courses %}
+        <div class="course-list-item">
+            <div class="class-identifier"></div>
+            <li class="course">{{course.code}}</li>
+        </div>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+<div class="grid-container">
+    <div class="to-do-list-container grid-box">
+        <div class="view-window">
+            <div class="view-window-header">
+                <h6>TO DO LIST</h6>
+                <button class="add-todo-item-btn">Add Item</button>
+            </div>
+            <div class="view-window-body">
+                <div class="todo-item">
+                    <div class="checkbox">
+                        <input type="checkbox" id="checkbox">
+                        <label for="checkbox"></label>
+                    </div>
+                    <div class="todo-name">
+                        <h6>Finish Resume</h6>
+                        <span>Feb 12 by 2pm</span>
+                    </div>
+                </div>
+                <div class="todo-item">
+                    <div class="checkbox">
+                        <input type="checkbox" id="checkbox">
+                        <label for="checkbox"></label>
+                    </div>
+                    <div class="todo-name">
+                        <h6>Email prof about lab grade</h6>
+                        <span>Feb 10</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="upcoming-deadlines-container grid-box">
+        <div class="view-window">
+            <div class="view-window-header">
+                <h6>UPCOMING DEADLINES</h6>
+            </div>
+            <div class="view-window-body">
+                <div class="calendar-event">
+                    <div class="calendar-event-date">
+                        <h6>Oct</h6>
+                        <h6>15</h6>
+                    </div>
+                    <div class="calendar-event-info">
+                        <h6>ENSF 461 Assignment 2</h6>
+                        <p>Due at 11:59pm</p>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" id="checkbox">
+                        <label for="checkbox"></label>
+                    </div>
+                </div>
+                <div class="calendar-event">
+                    <div class="calendar-event-date">
+                        <h6>Oct</h6>
+                        <h6>15</h6>
+                    </div>
+                    <div class="calendar-event-info">
+                        <h6>ENSF 461 Lab</h6>
+                        <p>Due at 11:59pm</p>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" id="checkbox">
+                        <label for="checkbox"></label>
+                    </div>
+                </div>
+                <div class="calendar-event">
+                    <div class="calendar-event-date">
+                        <h6>Oct</h6>
+                        <h6>15</h6>
+                    </div>
+                    <div class="calendar-event-info">
+                        <h6>ENSF 480 Midterm</h6>
+                        <p>Due at 11:59pm</p>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" id="checkbox">
+                        <label for="checkbox"></label>
+                    </div>
+                </div>
+                <div class="calendar-event">
+                    <div class="calendar-event-date">
+                        <h6>Oct</h6>
+                        <h6>15</h6>
+                    </div>
+                    <div class="calendar-event-info">
+                        <h6>ENSF 481 Essay Draft</h6>
+                        <p>Due at 11:59pm</p>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" id="checkbox">
+                        <label for="checkbox"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if courses.count %}
+    <div class="grades-container grid-box">
+        <div class="view-window">
+            <div class="view-window-header">
+                <h6>GRADES - QUICK GLANCE</h6>
+                <span>View more</span>
+            </div>
+            <div class="view-window-body">
+                {% for course in courses %}
+                <div class="course-grade-row">
+                    <div class="course-code">
+                        <h6>{{course.code}}</h6>
+                    </div>
+                    <div class="course-grade-breakdown">
+                        <p>Gained:</p>
+                        <p><span id="gained">19.6</span>/25</p>
+                    </div>
+                    <div class="course-grade-breakdown">
+                        <p>Losing:</p>
+                        <p><span id="losing">5.4</span>/100</p>
+                    </div>
+                    <div class="course-estimate">
+                        <p>Current grade:</p>
+                        <p>A-</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <div class="gpa-estimator-container grid-box"></div>
+</div>
 
-<ul class="list-group">
-    <li class="list-group-item">ENSF 461</li>
-    <li class="list-group-item">ENSF 462</li>
-    <li class="list-group-item">ENSF 460</li>
-    <li class="list-group-item">ENSF 480</li>
-    <li class="list-group-item">ENSF 481</li>
-</ul>
 
 {% endblock %}
