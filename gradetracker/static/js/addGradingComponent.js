@@ -1,8 +1,6 @@
 const gradingComponents = document.querySelector('#grading-components');
 const addComponentBtn = document.querySelector('#add-component');
 
-console.log('js linked');
-
 function createNewComponent() {
     console.log('button pressed');
     const newComponentDiv = document.createElement('div');

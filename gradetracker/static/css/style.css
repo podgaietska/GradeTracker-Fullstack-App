@@ -99,6 +99,7 @@
     font-size: 1.2rem;
     color: var(--greytext)
 }
+
 /* Main Container */
 .main-container{
     background: var(--grey3);
@@ -354,10 +355,8 @@
 /* Alerts */
 .alert{
     font-size: 0.9rem;
-}
-
-.error-message{
-    width: 70%;
+    width: 90%;
+    cursor: pointer;
 }
 
 /* Dashboard */
@@ -548,7 +547,6 @@
     overflow: auto;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     margin: 0.3rem 1rem;
 }
 
@@ -559,6 +557,7 @@
     height: fit-content;
     justify-content: space-between;
     align-items: center;
+    margin-top: 0.4rem;
 }
 
 .course-grade-breakdown{

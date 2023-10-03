@@ -1,17 +1,21 @@
 function updateCourseList() {
-    $.get('get-courses', function(data) {
+    console.log('Updating course list...');
+    $.get('/get-courses', function(data) {
+        console.log(data);
         const coursesList = document.querySelector('#courses-list')
 
         coursesList.innerHTML = '';
+        const courses = JSON.parse(data);
+        console.log(courses);
 
-        data.forEach(function(courseName){
+        courses.forEach(function(course){
             const listItem = document.createElement('li');
             listItem.className = 'nav-item';
 
             const link = document.createElement('a');
             link.className = 'nav-link';
-            link.href = '#';
-            link.textContent = courseName;
+            link.href = `/course-home/${course.pk}`;
+            link.textContent = course.fields.code;
 
             listItem.appendChild(link);
             coursesList.appendChild(listItem);

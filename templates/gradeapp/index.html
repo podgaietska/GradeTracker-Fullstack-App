@@ -10,7 +10,7 @@
         {% for course in courses %}
         <div class="course-list-item">
             <div class="class-identifier"></div>
-            <li class="course">{{course.code}}</li>
+            <a href="{% url 'course-home' course.id %}" class="course">{{course.code}}</a>
         </div>
         {% endfor %}
     </ul>

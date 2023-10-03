@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Course, GradingComponent, CourseGradingComponent, Assignment, Category
 from django.contrib import messages
+from django.core import serializers
 # Create your views here.
 @login_required(login_url='/auth/login')
 def index(request):
@@ -99,5 +100,18 @@ def get_grading_components(request):
     
 def get_courses(request):
     if request.method == 'GET':
-        courses = Course.objects.filter(owner=request.user).values_list('code', flat=True)
-        return JsonResponse(list(courses), safe=False)
+        courses = Course.objects.filter(owner=request.user)
+        courses_json = serializers.serialize('json', courses)
+        return JsonResponse(courses_json, safe=False)  
+    
+def course_home(request, course_id):
+    course = Course.objects.get(pk=course_id);
+    courses = Course.objects.filter(owner=request.user)
+    
+    context = {
+        'courses': courses,
+        'course': course,
+    }
+    
+    if request.method == 'GET':
+        return render(request, 'gradeapp/course_home.html', context)
