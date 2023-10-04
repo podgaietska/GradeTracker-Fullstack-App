@@ -1,0 +1,24 @@
+<div class="upcoming-deadlines-container grid-box">
+    <div class="view-window">
+        <div class="view-window-header">
+            <h6>UPCOMING DEADLINES</h6>
+        </div>
+        <div class="view-window-body">
+            {% for event in events %}
+            <div class="calendar-event">
+                <div class="calendar-event-date">
+                    <h6>{{ event.date }}</h6>
+                </div>
+                <div class="calendar-event-info">
+                    <h6>{{ event.title }}</h6>
+                    <p>{{ event.due_time }}</p>
+                </div>
+                <div class="checkbox">
+                    <input type="checkbox" id="{{ event.checkbox_id }}">
+                    <label for="{{ event.checkbox_id }}"></label>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

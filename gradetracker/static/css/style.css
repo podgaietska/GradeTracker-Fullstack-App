@@ -651,5 +651,165 @@
     width: 7%;
 } 
 
+/* Course Home */
+/* Grades */
 
+.grades-section-col .view-window-header h6, .course-information-section .view-window-header h6{
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+.course-home-container{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 1rem;
+}
+
+.grades-section-col{
+    width: 40%;
+    height: 90%;
+    background: white;
+    border-radius: 0.5rem;
+    border: 1px solid var(--grey2);
+    margin-right: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+}
+
+.grade-component, .grade{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 1rem;
+    width: 100%;
+    height: fit-content;
+    border-bottom: 1px solid var(--grey2);
+    position: relative;
+}
+
+.grade-component{
+    color: var(--bluetext);
+}
+
+.edit-grades-btn, .edit-course-details-btn{
+    background: rgba(255, 189, 89, 0.3);
+    color: #FFBD59;
+    padding: 0 1.5rem;
+    margin: 0.5rem;
+    border-radius: 0.3rem;
+    border: none !important;
+}
+
+.other-sections-col{
+    width: 50%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+.course-information-section{
+    width: 100%;
+    height: 30%;
+    background: white;
+    border-radius: 0.5rem;
+    border: 1px solid var(--grey2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.course-information-section form{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* EDIT */
+.course-information-section .view-window-body{ 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+.course-information-section .view-window-body div{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0.3rem;
+}
+
+.course-information-section .view-window-body .course-name{
+    text-align: center;
+}
+
+.course-information-section .view-window-body .course-sections p:not(:first-child){
+    margin-left: 12%;
+}
+
+.course-information-section .view-window-body .grade-section{
+    flex-direction: column;
+}
+
+.grade-section .stat-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.grade-section .stat-row p:not(:first-child){
+    margin-left: 7%;
+}
+
+.course-deadlines-section{
+    height: 65%;
+    width: 100%;
+    background: white;
+    border-radius: 0.5rem;
+    border: 1px solid var(--grey2);
+}
+
+/* Edit Mode */
+
+.course-info-col-edit div{
+    margin-bottom: 0;
+}
+.course-information-section .course-name.form-group, .course-information-section .course-code.form-group{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.course-information-section .course-name.form-group label, .course-information-section .course-code.form-group label{
+    margin-bottom: 0.3rem;
+}
+
+.course-information-section .form-group.select label{
+    font-size: 0.8rem;
+}
+
+.course-info-col-edit{
+    display: flex;
+    flex-direction: row;   
+}
+
+.course-sections .form-group{
+    margin-top: 0;
+}
+
+.course-sections .form-group select{
+    width: 40%;
+}
 

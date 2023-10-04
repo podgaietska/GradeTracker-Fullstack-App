@@ -1,7 +1,169 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 
-<h1>{{course.code}}</h1>
+<h4>{{course.code}} - {{course.name}}</h4>
+<div class="course-home-container">
+    <div class="grades-section-col">
+        <div class="view-window">
+            <div class="view-window-header">
+                <h6>GRADES</h6>
+                <a href="" class="edit-grades-btn">Edit</a>
+            </div>
+            <div class="view-window-body">
+                <div class="grade-component">
+                    <p>Quizzes</p>
+                    <p>0/5</p>
+                </div>
+                <div class="grade">
+                    <p>Quiz 1</p>
+                    <p>0/0.25</p>
+                </div>
+                <div class="grade">
+                    <p>Quiz 2</p>
+                    <p>0/0.25</p>
+                </div>
+                <div class="grade">
+                    <p>Quiz 3</p>
+                    <p>0/0.25</p>
+                </div>
+                <div class="grade">
+                    <p>Quiz 4</p>
+                    <p>0/0.25</p>
+                </div>
+                <div class="grade-component">
+                    <p>Labs</p>
+                    <p>0/20</p>
+                </div>
+                <div class="grade">
+                    <p>Lab 1</p>
+                    <p>0/4</p>
+                </div>
+                <div class="grade">
+                    <p>Lab 2</p>
+                    <p>0/4</p>
+                </div>
+                <div class="grade">
+                    <p>Lab 3</p>
+                    <p>0/4</p>
+                </div>
+                <div class="grade">
+                    <p>Lab 4</p>
+                    <p>0/4</p>
+                </div>
+                <div class="grade">
+                    <p>Lab 5</p>
+                    <p>0/4</p>
+                </div>
+                <div class="grade-component">
+                    <p>Exams</p>
+                    <p>0/55</p>
+                </div>
+                <div class="grade">
+                    <p>Midterm</p>
+                    <p>0/35</p>
+                </div>
+                <div class="grade">
+                    <p>Final</p>
+                    <p>0/50</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="other-sections-col">
+        <div class="course-information-section">
+            {% if edit %}<form action="{% url 'edit-course' course.id %}" method="POST">
+                {% csrf_token %}{% endif %}
+            <div class="view-window">
+                <div class="view-window-header">
+                    <h6>COUSRE DETAILS</h6>
+                    {%if edit %}
+                    <button type="submit" class="edit-course-details-btn">Done</button>
+                    {% else %}
+                    <a href="{% if edit %}{% url 'course-home' course.id %}{% else %}{% url 'edit-course' course.id %}{% endif %}" class="edit-course-details-btn">Edit</a>
+                    {% endif %}
+                </div>
+                <div class="view-window-body">
+                    {% if edit %}
+                    <div class="course-info-col-edit">
+                        <div class="course-name form-group">
+                            <label for="">Course Name</label>
+                            <input type="text" name="name" class="form-control form-control-sm" value="{{course.name}}"/>
+                        </div>
+                        <div class="course-code form-group">
+                            <label for="">Course Code</label>
+                            <input type="text" name="code" class="form-control form-control-sm" value="{{course.code}}"/>
+                        </div>
+                    </div>
+                    <div class="course-sections">
+                        <div class="form-group select">
+                            <label for="">Lecture Section</label>
+                            <select class="form-control" name="lecture-section">
+                                <option name="lecture-section" value="{{course.lecture}}" default>{{course.lecture}}</option>
+                                {% for lecture in lecture_sections %}
+                                {% if lecture != course.lecture %}<option name="lecture-section" value="{{lecture}}">{{lecture}}</option>{% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group select">
+                            <label for="">Lecture Section</label>
+                            <select class="form-control" name="lab-section">
+                                <option name="lab-section" value="{% if course.lab %}{{course.lab}}{% else %}-{% endif %}">{% if course.lab %}{{course.lab}}{% else %}-{% endif %}</option>
+                                {% if course.lab %} <option name="lab-section" value="-">-</option> {% endif %}
+                                {% for lab in lab_sections %}
+                                {% if lab != course.lab %}<option name="lab-section" value="{{lab}}">{{lab}}</option>{% endif %}
+                                {% endfor %}
+                            </select>  
+                        </div>
+                        <div class="form-group select">
+                            <label for="">Lecture Section</label>
+                            <select class="form-control" name="seminar-section">
+                                <option name="seminar-section" value="{% if course.seminar %}{{course.seminar}}{% else %}-{% endif %}">{% if course.seminar %}{{course.seminar}}{% else %}-{% endif %}</option>
+                                {% if course.seminar %} <option name="seminar-section" value="-">-</option> {% endif %}
+                                {% for seminar in seminar_sections %}
+                                {% if seminar != course.seminar %}<option name="seminar-section" value="{{seminar}}">{{seminar}}</option>{% endif %}
+                                {% endfor %}
+                            </select> 
+                        </div>
+                    </div> 
+                    {% else %}
+                    <div class="course-name">
+                        <p>Name: {{course.name}}</p>
+                    </div>
+                    <div class="course-sections">
+                        {% if course.lecture %}
+                        <p>Lectrue: {{course.lecture}}</p>
+                        {% endif %}
+                        {% if course.lab %}
+                        <p>Lab: {{course.lab}}</p>
+                        {% endif %}
+                        {% if course.seminar %}
+                        <p>Seminar: {{course.seminar}}</p>
+                        {% endif %}
+                    </div>
+                    <div class="grade-section">
+                        <div class ="stat-row">
+                            <p>Currently Earned:</p>
+                            <p>12.5/20</p>
+                        </div>
+                        <div class ="stat-row">
+                            <p>Currently Losing:</p>
+                            <p>2.5/100</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% if edit %}</form>{% endif %}
+        </div>
+        <div class="course-deadlines-section">
+
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'js/courseHome.js' %}"></script>
 
 {% endblock %}

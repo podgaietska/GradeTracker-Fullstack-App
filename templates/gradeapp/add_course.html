@@ -26,20 +26,18 @@
                                 <label for="">Lecture Section</label>
                                 <select class="form-control" name="lecture-section">
                                     <option name="lecture-section" value="-">-</option>
-                                    <option name="lecture-section" value="L01">L01</option>
-                                    <option name="lecture-section" value="L02">L02</option>
-                                    <option name="lecture-section" value="L03">L03</option>
-                                    <option name="lecture-section" value="L04">L04</option>
-                                    <option name="lecture-section" value="L05">L05</option>
+                                    {% for lecture in lecture_sections %}
+                                    <option name="lecture-section" value="{{lecture}}">{{lecture}}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                             <div class="form-group select">
                                 <label for="">Lab Section</label>
                                 <select class="form-control" name="lab-section">
                                     <option name="lab-section" value="-">-</option>
-                                    <option name="lab-section" value="B01">B01</option>
-                                    <option name="lab-section" value="B02">B02</option>
-                                    <option name="lab-section" value="B03">B03</option>
+                                    {% for lab in lab_sections %}
+                                    <option name="lab-section" value="{{lab}}">{{lab}}</option>
+                                    {% endfor %}
                                 </select>                            
                             </div>
                         </div>
@@ -48,9 +46,9 @@
                                 <label for="">Seminar Section</label>
                                 <select class="form-control" name="seminar-section">
                                     <option name="seminar-section" value="-">-</option>
-                                    <option name="seminar-section" value="S01">S01</option>
-                                    <option name="seminar-section" value="S02">S02</option>
-                                    <option name="seminar-section" value="S03">S03</option>
+                                    {% for seminar in seminar_sections %}
+                                    <option name="seminar-section" value="{{seminar}}">{{seminar}}</option>
+                                    {% endfor %}
                                 </select>                             
                             </div>
                         </div>

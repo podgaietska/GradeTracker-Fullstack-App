@@ -1,13 +1,12 @@
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Course, GradingComponent, CourseGradingComponent, Assignment, Category
+from .models import Course, GradingComponent, CourseGradingComponent, Event
 from django.contrib import messages
 from django.core import serializers
 # Create your views here.
 @login_required(login_url='/auth/login')
 def index(request):
-    grading_components = GradingComponent.objects.all()
     courses = Course.objects.filter(owner=request.user)
     
     context = {
@@ -17,9 +16,16 @@ def index(request):
 
 def add_course(request):
     grading_components = GradingComponent.objects.all()
+    lecture_sections = ['L01', 'L02', 'L03', 'L04', 'L05']
+    lab_sections = ['B01', 'B02', 'B03']
+    seminar_sections = ['S01', 'S02', 'S03']
+    
     context = {
             'grading_components' : grading_components,
-            'values': request.POST
+            'values': request.POST,
+            'lecture_sections': lecture_sections,
+            'lab_sections': lab_sections,
+            'seminar_sections': seminar_sections,
         }
     
     if request.method == 'GET':
@@ -106,12 +112,65 @@ def get_courses(request):
     
 def course_home(request, course_id):
     course = Course.objects.get(pk=course_id);
-    courses = Course.objects.filter(owner=request.user)
     
     context = {
-        'courses': courses,
         'course': course,
     }
     
     if request.method == 'GET':
         return render(request, 'gradeapp/course_home.html', context)
+
+def edit_course(request, course_id):
+    course = Course.objects.get(pk=course_id);
+    lecture_sections = ['L01', 'L02', 'L03', 'L04', 'L05']
+    lab_sections = ['B01', 'B02', 'B03']
+    seminar_sections = ['S01', 'S02', 'S03']
+    
+    context = {
+        'course': course,
+        'edit': True,
+        'lecture_sections': lecture_sections,
+        'lab_sections': lab_sections,
+        'seminar_sections': seminar_sections,
+    }
+    
+    if request.method == 'GET':
+        return render(request, 'gradeapp/course_home.html', context)
+    if request.method == 'POST':
+        name = request.POST['name']
+        code = request.POST['code']
+        lecture_section = request.POST['lecture-section']
+        lab_section = request.POST['lab-section']
+        seminar_section = request.POST['seminar-section']
+        
+        if not name:
+            messages.error(request, 'Course name is required')
+            return render(request, 'gradeapp/add_course.html', context)
+        
+        if not code:
+            messages.error(request, 'Course code is required')
+            return render(request, 'gradeapp/add_course.html', context)
+        
+        if not lecture_section:
+            messages.error(request, 'Lecture section is required')
+            return render(request, 'gradeapp/add_course.html', context)
+        
+        if lab_section == '-':
+            lab_section = None
+            
+        if seminar_section == '-':
+            seminar_section = None
+            
+        course.owner = request.user
+        course.name = name
+        course.lab = lab_section
+        course.lecture = lecture_section
+        course.seminar = seminar_section
+        course.code = code
+        
+        course.save()
+        
+        messages.success(request, 'Course added successfully')
+        return redirect('course-home', course_id=course_id)
+        
+        

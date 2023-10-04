@@ -7,4 +7,5 @@ urlpatterns =[
     path('get-grading-components', views.get_grading_components, name="get-grading-components"),
     path('get-courses', views.get_courses, name="get-couses"),
     path('course-home/<int:course_id>', views.course_home, name="course-home"),
+    path('course-home/<int:course_id>/edit', views.edit_course, name="edit-course"),
 ]
