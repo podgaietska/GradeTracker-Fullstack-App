@@ -112,9 +112,11 @@ def get_courses(request):
     
 def course_home(request, course_id):
     course = Course.objects.get(pk=course_id);
-    
+    course_grading_components = CourseGradingComponent.objects.filter(course=course);
+
     context = {
         'course': course,
+        'course_grading_components': course_grading_components,
     }
     
     if request.method == 'GET':
@@ -122,16 +124,18 @@ def course_home(request, course_id):
 
 def edit_course(request, course_id):
     course = Course.objects.get(pk=course_id);
+    course_grading_components = CourseGradingComponent.objects.filter(course=course);
     lecture_sections = ['L01', 'L02', 'L03', 'L04', 'L05']
     lab_sections = ['B01', 'B02', 'B03']
     seminar_sections = ['S01', 'S02', 'S03']
-    
+        
     context = {
         'course': course,
         'edit': True,
         'lecture_sections': lecture_sections,
         'lab_sections': lab_sections,
         'seminar_sections': seminar_sections,
+        'course_grading_components': course_grading_components,
     }
     
     if request.method == 'GET':
@@ -145,15 +149,15 @@ def edit_course(request, course_id):
         
         if not name:
             messages.error(request, 'Course name is required')
-            return render(request, 'gradeapp/add_course.html', context)
+            return render(request, 'gradeapp/course_home.html', context)
         
         if not code:
             messages.error(request, 'Course code is required')
-            return render(request, 'gradeapp/add_course.html', context)
+            return render(request, 'gradeapp/course_home.html', context)
         
         if not lecture_section:
             messages.error(request, 'Lecture section is required')
-            return render(request, 'gradeapp/add_course.html', context)
+            return render(request, 'gradeapp/course_home.html', context)
         
         if lab_section == '-':
             lab_section = None

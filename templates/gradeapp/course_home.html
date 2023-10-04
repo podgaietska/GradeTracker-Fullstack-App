@@ -12,11 +12,18 @@
                 <a href="" class="edit-grades-btn">Edit</a>
             </div>
             <div class="view-window-body">
+                {% for component in course_grading_components %}
                 <div class="grade-component">
-                    <p>Quizzes</p>
-                    <p>0/5</p>
+                    <p>{{ component.grading_component.name }}</p>
+                    <p>0/{{ component.weight }}</p>
                 </div>
+                {% if component.grading_component.name == 'Assignments' or component.grading_component.name == 'Labs' or component.grading_component.name == 'Quizzes' %}
                 <div class="grade">
+                    <p>+ Add Instance</p>
+                </div>
+                {% endif %}
+                {% endfor %}
+                <!-- <div class="grade">
                     <p>Quiz 1</p>
                     <p>0/0.25</p>
                 </div>
@@ -67,7 +74,7 @@
                 <div class="grade">
                     <p>Final</p>
                     <p>0/50</p>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
