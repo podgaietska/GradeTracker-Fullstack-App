@@ -691,6 +691,10 @@
     position: relative;
 }
 
+.add-instance{
+    cursor: pointer;
+}
+
 .grade-component{
     color: var(--bluetext);
 }

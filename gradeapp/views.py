@@ -14,6 +14,44 @@ def index(request):
     }
     return render(request, 'gradeapp/index.html', context)
 
+def add_instance(request, grading_component_id):
+    component = CourseGradingComponent.objects.get(pk=grading_component_id)
+    
+    context = {
+        'component': component,
+    }
+    
+    if request.method == 'GET':    
+        return render(request, 'gradeapp/add_instance.html', context)
+    
+    if request.method == 'POST':
+        grading_component = component.grading_component
+        course = component.course
+        
+        name = request.POST['name']
+        date = request.POST['date']
+        
+        if not name:
+            messages.error(request, 'Name for the Assignment/Quiz is required')
+            return render(request, 'gradeapp/add_instance.html', context)
+        
+        if not date:
+            messages.error(request, 'Date for the Assignment/Quiz is required')
+            return render(request, 'gradeapp/add_instance.html', context)
+        
+        event = Event(
+            name = name,
+            grading_component = grading_component,
+            date = date,
+            course = course,
+            owner = request.user
+        )
+        event.save()
+        
+        messages.success(request, 'Assignment/Quiz added successfully')
+        return redirect('course-home', course_id=course.id)
+        
+
 def add_course(request):
     grading_components = GradingComponent.objects.all()
     lecture_sections = ['L01', 'L02', 'L03', 'L04', 'L05']
@@ -120,6 +158,8 @@ def course_home(request, course_id):
     }
     
     if request.method == 'GET':
+        for component in course_grading_components:
+            print(component.id)
         return render(request, 'gradeapp/course_home.html', context)
 
 def edit_course(request, course_id):
@@ -174,7 +214,6 @@ def edit_course(request, course_id):
         
         course.save()
         
-        messages.success(request, 'Course added successfully')
         return redirect('course-home', course_id=course_id)
         
         

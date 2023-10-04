@@ -13,15 +13,15 @@
             </div>
             <div class="view-window-body">
                 {% for component in course_grading_components %}
-                <div class="grade-component">
-                    <p>{{ component.grading_component.name }}</p>
-                    <p>0/{{ component.weight }}</p>
-                </div>
-                {% if component.grading_component.name == 'Assignments' or component.grading_component.name == 'Labs' or component.grading_component.name == 'Quizzes' %}
-                <div class="grade">
-                    <p>+ Add Instance</p>
-                </div>
-                {% endif %}
+                    <div class="grade-component">
+                        <p>{{ component.grading_component.name }}</p>
+                        <p>0/{{ component.weight }}</p>
+                    </div>
+                    {% if component.grading_component.name == 'Assignments' or component.grading_component.name == 'Labs' or component.grading_component.name == 'Quizzes' %}
+                    <div class="grade">
+                        <a href="{% url 'add-instance' component.id %}" class="add-instance">+ Add Instance</a>
+                    </div>
+                    {% endif %}
                 {% endfor %}
                 <!-- <div class="grade">
                     <p>Quiz 1</p>

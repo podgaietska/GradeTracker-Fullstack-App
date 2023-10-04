@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h4 class="add-course-title">Add New Instance</h4>
+<div class="error-message">
+    {% include 'partials/_messages.html' %}
+</div>
+
+<div class="add-course-window">
+    <div class="add-course-card">
+        <form action="{% url 'add-instance' component.id %}" method="POST">
+            {% csrf_token %}
+            <div class="course-information">
+                <h3>GRADING COMPONENT</h3>
+                <div class="form-group">
+                    <label for="">Course Code</label>
+                    <input type="text" class="form-control form-control-sm" value="{{component.course.code}}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="">Course Grading Component</label>
+                    <input type="text" class="form-control form-control-sm" value="{{component.grading_component.name}}" aria-readonly="">
+                </div>
+                <input type="submit" value="Submit" class="add-course-btn">
+            </div>
+            <div class="separator"></div>
+            <div class="course-details">
+                <h3>ASSIGNMENT INFORMATION</h3>
+                <div class="form-group">
+                    <label for="">Assignment/Quiz Name</label>
+                    <input type="text" name="name" class="form-control form-control-sm" placeholder="eg. Lab 1, Assignment 1, Quiz 1, etc.">
+                </div>
+                <div class="form-group">
+                    <label for="">Assignment Due Date/ Quiz Date</label>
+                    <input type="date" name="date" class="form-control form-control-sm" value="{{component.grading_component.name}}">
+                </div>
+            </div> 
+        </form>
+    </div>
+    <div class="tips-on-adding">
+        <div class="tip">
+            <h5>Tip 1</h5>
+            <p>If your class doesn’t have a lab or a seminar, not to worry! Just leave the field blank. But <span>make sure you enter the Lecture Section.</span> There are no classes with not lectures!</p>
+        </div>
+        <div class="tip">
+            <h5>Tip 2</h5>
+            <p>We tried to give you options of as many grading components as possible, but if we missed any, just <span>select one that fits the best!</span><br/> <br/> In the Component Weight field - <span>divide percentage weight of your component by 100</span>. This should give you a decimal number from 0 - 1. The weights of all of your components should add  up to 1. </p>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'js/addGradingComponent.js' %}"></script>
+
+{% endblock %}
