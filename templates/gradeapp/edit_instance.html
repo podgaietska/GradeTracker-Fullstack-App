@@ -28,7 +28,11 @@
                 <h3>ASSIGNMENT INFORMATION</h3>
                 <div class="form-group">
                     <label for="">Assignment/Quiz Name</label>
+                    {% if is_exam%}
+                    <input type="text" name="name" class="form-control form-control-sm" value="{{component.grading_component.name}}" placeholder="eg. Lab 1, Assignment 1, Quiz 1, etc.">
+                    {% else %}
                     <input type="text" name="name" class="form-control form-control-sm" value="{% if edit_instance %}{{event.name}}{% else %}{{values.name}}{% endif %}" placeholder="eg. Lab 1, Assignment 1, Quiz 1, etc.">
+                    {% endif %}
                 </div>
                 <div class="form-group">
                     <label for="">Assignment Due Date/ Quiz Date</label>

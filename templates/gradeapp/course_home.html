@@ -17,7 +17,19 @@
                 {% for component in course_grading_components %}
                     <div class="grade-component">
                         <p>{{ component.grading_component.name }}</p>
+                        {% if component.grading_component.name != 'Assignments' and component.grading_component.name != 'Quizzes' and  component.grading_component.name != 'Labs' and component.grading_component.name != 'Project(s)' and component.grading_component.name != 'Group Project(s)' %}
+                            {% if edit_grades %}
+                            <div class="edit-mode-grade">
+                                <p>{% if total_grades|get_value:component.grading_component.id != 0 %}{{ total_grades|get_value:component.grading_component.id|floatformat:3 }}{% else %}0{% endif %}/{{ component.weight }}</p>
+                                <a href="{% if exam_has_event|get_value:component.grading_component.name != False%}{% url 'edit-instance' exam_has_event|get_value:component.grading_component.name %}{% else %}{% url 'add-instance' component.id %}{% endif %}"><i class="bx bx-pencil"></i></a>
+                                <p>x</p>
+                            </div>
+                            {% else %}
+                            <p>{% if total_grades|get_value:component.grading_component.id != 0 %}{{ total_grades|get_value:component.grading_component.id|floatformat:3 }}{% else %}0{% endif %}/{{ component.weight }}</p>
+                            {% endif %}
+                        {% else %}
                         <p>{% if total_grades|get_value:component.grading_component.id != 0 %}{{ total_grades|get_value:component.grading_component.id|floatformat:3 }}{% else %}0{% endif %}/{{ component.weight }}</p>
+                        {% endif %}
                     </div>
                     {% if component.grading_component.name == 'Quizzes' or component.grading_component.name == 'Assignments' or component.grading_component.name == 'Labs' or component.grading_component.name == 'Project(s)' or component.grading_component.name == 'Group Project(s)' %}
                         {% for event in events %}

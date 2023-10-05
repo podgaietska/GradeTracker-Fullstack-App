@@ -173,14 +173,16 @@ def edit_course(request, course_id):
 def course_home(request, course_id):
     course = Course.objects.get(pk=course_id);
     course_grading_components = CourseGradingComponent.objects.filter(course=course)
-    events = Event.objects.filter(owner = request.user, course=course)
+    events = Event.objects.filter(owner = request.user, course=course) 
 
     total_grades = {component.grading_component.id: 0 for component in course_grading_components}
+    
 
     for event in events:
         if event.grading_component.id in total_grades:
             total_grades[event.grading_component.id] += event.grade
-                
+
+
     context = {
         'course': course,
         'course_grading_components': course_grading_components,
@@ -193,10 +195,15 @@ def course_home(request, course_id):
 
 def add_instance(request, grading_component_id):
     component = CourseGradingComponent.objects.get(pk=grading_component_id)
+    is_exam = False
+    
+    if component.grading_component.name == 'Final Exam' or component.grading_component.name == 'Midterm' or component.grading_component.name == 'Midterm 2' or component.grading_component.name == 'Final Project':
+        is_exam = True
     
     context = {
         'component': component,
         'values': request.POST,
+        'is_exam': is_exam,
     }
     
     if request.method == 'GET': 
@@ -205,16 +212,19 @@ def add_instance(request, grading_component_id):
     if request.method == 'POST':
         grading_component = component.grading_component
         course = component.course
+        name = grading_component.name
         
-        name = request.POST['name']
+        if not is_exam:
+            name = request.POST['name']
+            
         date = request.POST['date']
         student_grade = request.POST['student-grade']
         max_grade = request.POST['max-grade']
         
-        if not student_grade:
+        if not student_grade or student_grade == '0':
             student_grade = None
             
-        if not max_grade:
+        if not max_grade or max_grade == '0':
             max_grade = None
             
         # Change if neccessary
@@ -222,7 +232,7 @@ def add_instance(request, grading_component_id):
             max_grade = None
             student_grade = None
         
-        if not name:
+        if not name and not is_exam:
             messages.error(request, 'Name for the Assignment/Quiz is required')
             return render(request, 'gradeapp/edit_instance.html', context)
         
@@ -274,10 +284,10 @@ def edit_instance(request, event_id):
             parsed_date = datetime.strptime(input_date, '%b. %d, %Y')
             formatted_date = parsed_date.strftime('%Y-%m-%d')
         
-        if not student_grade:
+        if not student_grade or student_grade == '0':
             student_grade = None
             
-        if not max_grade:
+        if not max_grade or max_grade == '0':
             max_grade = None
             
         # Change if neccessary
@@ -310,12 +320,22 @@ def edit_grades(request, course_id):
     course = Course.objects.get(pk=course_id);
     course_grading_components = CourseGradingComponent.objects.filter(course=course);
     events = Event.objects.filter(owner = request.user, course=course)
+    exam_has_event = {'Final Exam': False, 'Midterm': False, 'Midterm 2': False, 'Final Project': False}
+
     
     total_grades = {component.grading_component.id: 0 for component in course_grading_components}
 
     for event in events:
         if event.grading_component.id in total_grades:
             total_grades[event.grading_component.id] += event.grade
+        if event.grading_component.name == 'Final Exam':
+            exam_has_event['Final Exam'] = event.grading_component.id
+        if event.grading_component.name == 'Midterm':
+            exam_has_event['Midterm'] = event.grading_component.id
+        if event.grading_component.name == 'Midterm 2':
+            exam_has_event['Midterm 2'] = event.grading_component.id
+        if event.grading_component.name == 'Final Project':
+            exam_has_event['Final Project'] = event.grading_component.id
     
     context = {
         'course': course,
@@ -323,9 +343,11 @@ def edit_grades(request, course_id):
         'course_grading_components': course_grading_components,
         'events':events,
         'total_grades': total_grades,
+        'exam_has_event': exam_has_event,
     }
     
     if request.method == 'GET':
+        print(exam_has_event)
         return render(request, 'gradeapp/course_home.html', context)
     
     
