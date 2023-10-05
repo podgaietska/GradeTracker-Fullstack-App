@@ -44,7 +44,8 @@ class Event(models.Model):
     )
     
     name = models.CharField(max_length=255)
-    grade = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    student_grade = models.IntegerField(null=True, blank=True)
+    max_grade = models.IntegerField(null=True, blank=True)
     grading_component = models.ForeignKey(to=GradingComponent, on_delete=models.CASCADE)
     date = models.DateField()
     course = models.ForeignKey(to=Course, on_delete=models.CASCADE)
@@ -55,13 +56,22 @@ class Event(models.Model):
         return self.name
     
     class Meta:
-        ordering = ['-date']
-    
+        ordering = ['date']
+
     @property  
     def weight(self):
         course_component = CourseGradingComponent.objects.get(course=self.course, grading_component=self.grading_component)
         total_events_in_grading_component = Event.objects.filter(course=self.course, grading_component=self.grading_component).count()
         return course_component.weight / total_events_in_grading_component if total_events_in_grading_component > 0 else 0
+        
+    @property 
+    def grade(self):
+        if self.student_grade != None and self.max_grade != None:
+            student_grade_float = float(self.student_grade)
+            max_grade_float = float(self.max_grade)
+            return (student_grade_float / max_grade_float) * float(self.weight)
+        else:
+            return 0
         
 # class Progress(models.Model):
 #     description = models.CharField(max_length=100)

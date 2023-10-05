@@ -1,80 +1,48 @@
 {% extends "base.html" %}
 {% load static %}
+{% load custom_filters %}
 
 {% block content %}
 
+{% include 'partials/_messages.html' %}
 <h4>{{course.code}} - {{course.name}}</h4>
 <div class="course-home-container">
     <div class="grades-section-col">
         <div class="view-window">
             <div class="view-window-header">
                 <h6>GRADES</h6>
-                <a href="" class="edit-grades-btn">Edit</a>
+                <a href="{% if edit_grades %}{% url 'course-home' course.id %}{% else %}{% url 'edit-grades' course.id %}{% endif %}" class="edit-grades-btn">{% if edit_grades %}Done{% else %}Edit{% endif %}</a>
             </div>
             <div class="view-window-body">
                 {% for component in course_grading_components %}
                     <div class="grade-component">
                         <p>{{ component.grading_component.name }}</p>
-                        <p>0/{{ component.weight }}</p>
+                        <p>{% if total_grades|get_value:component.grading_component.id != 0 %}{{ total_grades|get_value:component.grading_component.id|floatformat:3 }}{% else %}0{% endif %}/{{ component.weight }}</p>
                     </div>
-                    {% if component.grading_component.name == 'Assignments' or component.grading_component.name == 'Labs' or component.grading_component.name == 'Quizzes' %}
+                    {% if component.grading_component.name == 'Quizzes' or component.grading_component.name == 'Assignments' or component.grading_component.name == 'Labs' or component.grading_component.name == 'Project(s)' or component.grading_component.name == 'Group Project(s)' %}
+                        {% for event in events %}
+                            {% if event.grading_component.name == component.grading_component.name %}
+                                <div class="grade">
+                                    <p>{{event.name}}</p>
+                                    {% if edit_grades %}
+                                    <div class="edit-mode-grade">
+                                        <p>{% if event.grade != 0 %}{{event.grade|floatformat:3}}{% else %}0{% endif %} / {{event.weight|floatformat:3}}</p>
+                                        <a href="{% url 'edit-instance' event.id %}"><i class="bx bx-pencil"></i></a>
+                                        <p>x</p>
+                                    </div>
+                                    {% else%}
+                                    <p>{% if event.grade != 0 %}{{event.grade|floatformat:3}}{% else %}0{% endif %} / {{event.weight|floatformat:3}}</p>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% if edit_grades %}
                     <div class="grade">
                         <a href="{% url 'add-instance' component.id %}" class="add-instance">+ Add Instance</a>
                     </div>
                     {% endif %}
+                    {% endif %}
                 {% endfor %}
-                <!-- <div class="grade">
-                    <p>Quiz 1</p>
-                    <p>0/0.25</p>
-                </div>
-                <div class="grade">
-                    <p>Quiz 2</p>
-                    <p>0/0.25</p>
-                </div>
-                <div class="grade">
-                    <p>Quiz 3</p>
-                    <p>0/0.25</p>
-                </div>
-                <div class="grade">
-                    <p>Quiz 4</p>
-                    <p>0/0.25</p>
-                </div>
-                <div class="grade-component">
-                    <p>Labs</p>
-                    <p>0/20</p>
-                </div>
-                <div class="grade">
-                    <p>Lab 1</p>
-                    <p>0/4</p>
-                </div>
-                <div class="grade">
-                    <p>Lab 2</p>
-                    <p>0/4</p>
-                </div>
-                <div class="grade">
-                    <p>Lab 3</p>
-                    <p>0/4</p>
-                </div>
-                <div class="grade">
-                    <p>Lab 4</p>
-                    <p>0/4</p>
-                </div>
-                <div class="grade">
-                    <p>Lab 5</p>
-                    <p>0/4</p>
-                </div>
-                <div class="grade-component">
-                    <p>Exams</p>
-                    <p>0/55</p>
-                </div>
-                <div class="grade">
-                    <p>Midterm</p>
-                    <p>0/35</p>
-                </div>
-                <div class="grade">
-                    <p>Final</p>
-                    <p>0/50</p>
-                </div> -->
             </div>
         </div>
     </div>
@@ -88,7 +56,7 @@
                     {%if edit %}
                     <button type="submit" class="edit-course-details-btn">Done</button>
                     {% else %}
-                    <a href="{% if edit %}{% url 'course-home' course.id %}{% else %}{% url 'edit-course' course.id %}{% endif %}" class="edit-course-details-btn">Edit</a>
+                    <a href="{% url 'edit-course' course.id %}" class="edit-course-details-btn">Edit</a>
                     {% endif %}
                 </div>
                 <div class="view-window-body">

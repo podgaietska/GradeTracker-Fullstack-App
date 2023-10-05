@@ -4,6 +4,10 @@ from django.contrib.auth.decorators import login_required
 from .models import Course, GradingComponent, CourseGradingComponent, Event
 from django.contrib import messages
 from django.core import serializers
+from datetime import datetime
+import re
+
+
 # Create your views here.
 @login_required(login_url='/auth/login')
 def index(request):
@@ -12,45 +16,18 @@ def index(request):
     context = {
         'courses': courses,
     }
-    return render(request, 'gradeapp/index.html', context)
+    return render(request, 'gradeapp/index.html', context)  
 
-def add_instance(request, grading_component_id):
-    component = CourseGradingComponent.objects.get(pk=grading_component_id)
+def get_grading_components(request):
+    if request.method == 'GET':
+        grading_components = GradingComponent.objects.all().values_list('name', flat=True)
+        return JsonResponse(list(grading_components), safe=False)
     
-    context = {
-        'component': component,
-    }
-    
-    if request.method == 'GET':    
-        return render(request, 'gradeapp/add_instance.html', context)
-    
-    if request.method == 'POST':
-        grading_component = component.grading_component
-        course = component.course
-        
-        name = request.POST['name']
-        date = request.POST['date']
-        
-        if not name:
-            messages.error(request, 'Name for the Assignment/Quiz is required')
-            return render(request, 'gradeapp/add_instance.html', context)
-        
-        if not date:
-            messages.error(request, 'Date for the Assignment/Quiz is required')
-            return render(request, 'gradeapp/add_instance.html', context)
-        
-        event = Event(
-            name = name,
-            grading_component = grading_component,
-            date = date,
-            course = course,
-            owner = request.user
-        )
-        event.save()
-        
-        messages.success(request, 'Assignment/Quiz added successfully')
-        return redirect('course-home', course_id=course.id)
-        
+def get_courses(request):
+    if request.method == 'GET':
+        courses = Course.objects.filter(owner=request.user)
+        courses_json = serializers.serialize('json', courses)
+        return JsonResponse(courses_json, safe=False)  
 
 def add_course(request):
     grading_components = GradingComponent.objects.all()
@@ -136,35 +113,11 @@ def add_course(request):
         
         messages.success(request, 'Course added successfully')
         return redirect('gradeapp')
-        
-def get_grading_components(request):
-    if request.method == 'GET':
-        grading_components = GradingComponent.objects.all().values_list('name', flat=True)
-        return JsonResponse(list(grading_components), safe=False)
     
-def get_courses(request):
-    if request.method == 'GET':
-        courses = Course.objects.filter(owner=request.user)
-        courses_json = serializers.serialize('json', courses)
-        return JsonResponse(courses_json, safe=False)  
-    
-def course_home(request, course_id):
-    course = Course.objects.get(pk=course_id);
-    course_grading_components = CourseGradingComponent.objects.filter(course=course);
-
-    context = {
-        'course': course,
-        'course_grading_components': course_grading_components,
-    }
-    
-    if request.method == 'GET':
-        for component in course_grading_components:
-            print(component.id)
-        return render(request, 'gradeapp/course_home.html', context)
-
 def edit_course(request, course_id):
     course = Course.objects.get(pk=course_id);
     course_grading_components = CourseGradingComponent.objects.filter(course=course);
+    events = Event.objects.filter(owner = request.user, course=course)
     lecture_sections = ['L01', 'L02', 'L03', 'L04', 'L05']
     lab_sections = ['B01', 'B02', 'B03']
     seminar_sections = ['S01', 'S02', 'S03']
@@ -176,6 +129,7 @@ def edit_course(request, course_id):
         'lab_sections': lab_sections,
         'seminar_sections': seminar_sections,
         'course_grading_components': course_grading_components,
+        'events':events,
     }
     
     if request.method == 'GET':
@@ -215,5 +169,164 @@ def edit_course(request, course_id):
         course.save()
         
         return redirect('course-home', course_id=course_id)
+    
+def course_home(request, course_id):
+    course = Course.objects.get(pk=course_id);
+    course_grading_components = CourseGradingComponent.objects.filter(course=course)
+    events = Event.objects.filter(owner = request.user, course=course)
+
+    total_grades = {component.grading_component.id: 0 for component in course_grading_components}
+
+    for event in events:
+        if event.grading_component.id in total_grades:
+            total_grades[event.grading_component.id] += event.grade
+                
+    context = {
+        'course': course,
+        'course_grading_components': course_grading_components,
+        'events': events,
+        'total_grades': total_grades,
+    }
+    
+    if request.method == 'GET':
+        return render(request, 'gradeapp/course_home.html', context)
+
+def add_instance(request, grading_component_id):
+    component = CourseGradingComponent.objects.get(pk=grading_component_id)
+    
+    context = {
+        'component': component,
+        'values': request.POST,
+    }
+    
+    if request.method == 'GET': 
+        return render(request, 'gradeapp/edit_instance.html', context)
+    
+    if request.method == 'POST':
+        grading_component = component.grading_component
+        course = component.course
         
+        name = request.POST['name']
+        date = request.POST['date']
+        student_grade = request.POST['student-grade']
+        max_grade = request.POST['max-grade']
         
+        if not student_grade:
+            student_grade = None
+            
+        if not max_grade:
+            max_grade = None
+            
+        # Change if neccessary
+        if student_grade and not max_grade or max_grade and not student_grade:
+            max_grade = None
+            student_grade = None
+        
+        if not name:
+            messages.error(request, 'Name for the Assignment/Quiz is required')
+            return render(request, 'gradeapp/edit_instance.html', context)
+        
+        if not date:
+            messages.error(request, 'Date for the Assignment/Quiz is required')
+            return render(request, 'gradeapp/edit_instance.html', context)
+        
+        event = Event(
+            name = name,
+            student_grade = student_grade,
+            max_grade = max_grade,
+            grading_component = grading_component,
+            date = date,
+            course = course,
+            owner = request.user
+        )
+        event.save()
+        
+        messages.success(request, 'Assignment/Quiz added successfully')
+        return redirect('course-home', course_id=course.id)  
+    
+def edit_instance(request, event_id):
+    event = Event.objects.get(pk=event_id)
+    course = event.course
+    grading_component = event.grading_component
+    
+    context = {
+        'edit_instance': True,
+        'values': request.POST,
+        'grading_component': grading_component,
+        'event': event,
+        'course': course.code,
+    }
+    
+    if request.method == 'GET': 
+        return render(request, 'gradeapp/edit_instance.html', context)
+    
+    if request.method == 'POST':
+        grading_component = event.grading_component
+        course = event.course
+        
+        name = request.POST['name']
+        input_date = request.POST['date']
+        formatted_date = input_date
+        student_grade = request.POST['student-grade']
+        max_grade = request.POST['max-grade']
+        
+        if not re.match(r'^\d{4}-\d{2}-\d{2}$', input_date):    
+            parsed_date = datetime.strptime(input_date, '%b. %d, %Y')
+            formatted_date = parsed_date.strftime('%Y-%m-%d')
+        
+        if not student_grade:
+            student_grade = None
+            
+        if not max_grade:
+            max_grade = None
+            
+        # Change if neccessary
+        if student_grade and not max_grade or max_grade and not student_grade:
+            max_grade = None
+            student_grade = None
+        
+        if not name:
+            messages.error(request, 'Name for the Assignment/Quiz is required')
+            return render(request, 'gradeapp/edit_instance.html', context)
+        
+        if not input_date:
+            messages.error(request, 'Date for the Assignment/Quiz is required')
+            return render(request, 'gradeapp/edit_instance.html', context)
+        
+        event.owner = request.user
+        event.name = name
+        event.student_grade = student_grade
+        event.max_grade = max_grade
+        event.grading_component = grading_component
+        event.date = formatted_date
+        event.course = course
+        
+        event.save()
+        
+        messages.success(request, 'Assignment/Quiz edited successfully')
+        return redirect('course-home', course_id=course.id)      
+
+def edit_grades(request, course_id):
+    course = Course.objects.get(pk=course_id);
+    course_grading_components = CourseGradingComponent.objects.filter(course=course);
+    events = Event.objects.filter(owner = request.user, course=course)
+    
+    total_grades = {component.grading_component.id: 0 for component in course_grading_components}
+
+    for event in events:
+        if event.grading_component.id in total_grades:
+            total_grades[event.grading_component.id] += event.grade
+    
+    context = {
+        'course': course,
+        'edit_grades': True,
+        'course_grading_components': course_grading_components,
+        'events':events,
+        'total_grades': total_grades,
+    }
+    
+    if request.method == 'GET':
+        return render(request, 'gradeapp/course_home.html', context)
+    
+    
+    
