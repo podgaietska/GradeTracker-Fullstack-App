@@ -491,9 +491,12 @@
 
 /* Deadlines window */
 
+
+
+
 .upcoming-deadlines-container .view-window-body{
     height: 100%;
-    overflow: auto;
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
 }
@@ -502,7 +505,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0.5rem 0;
+    padding: 0.5rem 1rem;
     width: 100%;
     height: fit-content;
     border-bottom: 1px solid var(--grey2);
@@ -510,9 +513,9 @@
 }
 
 .calendar-event-date{
-    width: 15%;
-    height: 100%;
-    padding: 0.3rem 0;
+    width: 20%;
+    height: 3rem;
+    padding: 0.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -525,6 +528,12 @@
 .calendar-event-date h6{
     margin-bottom: 0;
     font-size: 0.8rem;
+    text-align: center;
+}
+
+.calendar-event-info h6{
+    margin-left: 10%;
+    width: 100%;
 }
 
 .calendar-event-info p{
@@ -805,6 +814,11 @@
     background: white;
     border-radius: 0.5rem;
     border: 1px solid var(--grey2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
 }
 
 /* Edit Mode */

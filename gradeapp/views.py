@@ -12,9 +12,11 @@ import re
 @login_required(login_url='/auth/login')
 def index(request):
     courses = Course.objects.filter(owner=request.user)
+    events = Event.objects.filter(owner = request.user)
     
     context = {
         'courses': courses,
+        'events': events,
     }
     return render(request, 'gradeapp/index.html', context)  
 
@@ -177,11 +179,9 @@ def course_home(request, course_id):
 
     total_grades = {component.grading_component.id: 0 for component in course_grading_components}
     
-
     for event in events:
         if event.grading_component.id in total_grades:
             total_grades[event.grading_component.id] += event.grade
-
 
     context = {
         'course': course,
@@ -322,7 +322,6 @@ def edit_grades(request, course_id):
     events = Event.objects.filter(owner = request.user, course=course)
     exam_has_event = {'Final Exam': False, 'Midterm': False, 'Midterm 2': False, 'Final Project': False}
 
-    
     total_grades = {component.grading_component.id: 0 for component in course_grading_components}
 
     for event in events:

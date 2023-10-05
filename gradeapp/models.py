@@ -14,6 +14,50 @@ class Course(models.Model):
     def __str__(self):
         return self.code
     
+    def total_grade_gained(self):
+        total = 0
+        for event in self.event_set.all():  
+            if event.student_grade is not None and event.max_grade is not None:
+                total += event.grade
+        return total*100
+    
+    def total_grade_possible(self):
+        total = 0
+        for event in self.event_set.all(): 
+            if event.max_grade is not None:
+                total += event.weight
+        return total*100
+
+    def total_grade_lost(self):
+        total = 0
+        for event in self.event_set.all(): 
+            if event.student_grade is not None and event.max_grade is not None: 
+                total += float(event.weight) - float(event.grade)
+        return total*100
+    
+    def grade(self):
+        if self.total_grade_lost() < 10:
+            return 'A+'
+        elif self.total_grade_lost() < 15:
+            return 'A'
+        elif self.total_grade_lost() < 20:
+            return 'A-'
+        elif self.total_grade_lost() < 25:
+            return 'B'
+        elif self.total_grade_lost() < 30:
+            return 'B+'
+        elif self.total_grade_lost() < 40:
+            return 'B-'
+        elif self.total_grade_lost() < 45:
+            return 'C+'
+        elif self.total_grade_lost() < 50:
+            return 'C-'
+        elif self.total_grade_lost() < 55:
+            return 'D'
+        else:
+            return 'F'
+        
+    
     class Meta:
         ordering = ['code']
 

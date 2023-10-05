@@ -48,69 +48,7 @@
         </div>
     </div>
     <div class="upcoming-deadlines-container grid-box">
-        <div class="view-window">
-            <div class="view-window-header">
-                <h6>UPCOMING DEADLINES</h6>
-            </div>
-            <div class="view-window-body">
-                <div class="calendar-event">
-                    <div class="calendar-event-date">
-                        <h6>Oct</h6>
-                        <h6>15</h6>
-                    </div>
-                    <div class="calendar-event-info">
-                        <h6>ENSF 461 Assignment 2</h6>
-                        <p>Due at 11:59pm</p>
-                    </div>
-                    <div class="checkbox">
-                        <input type="checkbox" id="checkbox">
-                        <label for="checkbox"></label>
-                    </div>
-                </div>
-                <div class="calendar-event">
-                    <div class="calendar-event-date">
-                        <h6>Oct</h6>
-                        <h6>15</h6>
-                    </div>
-                    <div class="calendar-event-info">
-                        <h6>ENSF 461 Lab</h6>
-                        <p>Due at 11:59pm</p>
-                    </div>
-                    <div class="checkbox">
-                        <input type="checkbox" id="checkbox">
-                        <label for="checkbox"></label>
-                    </div>
-                </div>
-                <div class="calendar-event">
-                    <div class="calendar-event-date">
-                        <h6>Oct</h6>
-                        <h6>15</h6>
-                    </div>
-                    <div class="calendar-event-info">
-                        <h6>ENSF 480 Midterm</h6>
-                        <p>Due at 11:59pm</p>
-                    </div>
-                    <div class="checkbox">
-                        <input type="checkbox" id="checkbox">
-                        <label for="checkbox"></label>
-                    </div>
-                </div>
-                <div class="calendar-event">
-                    <div class="calendar-event-date">
-                        <h6>Oct</h6>
-                        <h6>15</h6>
-                    </div>
-                    <div class="calendar-event-info">
-                        <h6>ENSF 481 Essay Draft</h6>
-                        <p>Due at 11:59pm</p>
-                    </div>
-                    <div class="checkbox">
-                        <input type="checkbox" id="checkbox">
-                        <label for="checkbox"></label>
-                    </div>
-                </div>
-            </div>
-        </div>
+    {% include 'partials/_deadlines.html' %}
     </div>
     {% if courses.count %}
     <div class="grades-container grid-box">
@@ -127,15 +65,15 @@
                     </div>
                     <div class="course-grade-breakdown">
                         <p>Gained:</p>
-                        <p><span id="gained">19.6</span>/25</p>
+                        <p><span id="gained">{% if course.total_grade_gained == 0 %}0{% else %}{{course.total_grade_gained|floatformat:3}}{% endif %}</span>/{% if course.total_grade_possible == 0 %}0{% else %}{{course.total_grade_possible|floatformat:3}}{% endif %}</p>
                     </div>
                     <div class="course-grade-breakdown">
                         <p>Losing:</p>
-                        <p><span id="losing">5.4</span>/100</p>
+                        <p><span id="losing">{% if course.total_grade_lost == 0 %}0{% else %}{{course.total_grade_lost|floatformat:3}}{% endif %}</span>/100</p>
                     </div>
                     <div class="course-estimate">
                         <p>Current grade:</p>
-                        <p>A-</p>
+                        <p>{{course.grade}}</p>
                     </div>
                 </div>
                 {% endfor %}

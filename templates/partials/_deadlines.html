@@ -1,4 +1,3 @@
-<div class="upcoming-deadlines-container grid-box">
     <div class="view-window">
         <div class="view-window-header">
             <h6>UPCOMING DEADLINES</h6>
@@ -10,15 +9,10 @@
                     <h6>{{ event.date }}</h6>
                 </div>
                 <div class="calendar-event-info">
-                    <h6>{{ event.title }}</h6>
+                    <h6>{{ event.name }} - {{event.course.code}}</h6>
                     <p>{{ event.due_time }}</p>
-                </div>
-                <div class="checkbox">
-                    <input type="checkbox" id="{{ event.checkbox_id }}">
-                    <label for="{{ event.checkbox_id }}"></label>
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
-</div>
