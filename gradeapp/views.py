@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Course, GradingComponent, CourseGradingComponent, Event, ToDoItem, Progress
+from .models import Course, GradingComponent, CourseGradingComponent, Event, ToDoItem, Progress, Category
 from django.contrib import messages
 from django.core import serializers
 from datetime import datetime
@@ -362,10 +362,12 @@ def edit_grades(request, course_id):
 
 def add_todo_item(request):
     progress_options = Progress.objects.all()
+    category_options = Category.objects.all()
     
     context = {
         'progress_options': progress_options,
         'values': request.POST,
+        'category_options': category_options,
     }
     
     if request.method == 'GET':
@@ -375,7 +377,9 @@ def add_todo_item(request):
         name = request.POST['name']
         date = request.POST['date']
         progress = request.POST['progress']
-        styling = {'Not Started': 'not-started', 'In Progress': 'in-progress', 'Finished': 'finished', 'Cancelled': 'cancelled', 'Urgent!': 'urgent', None: None}
+        category = request.POST['category']
+        styling = {'Not Started': 'not-started', 'In Progress': 'in-progress', 'Finished': 'finished', 'Cancelled': 'cancelled', None: None}
+        category_styling = {'Urgent!': 'urgent', 'Important!': 'cancelled', None: None}
                         
         if not name:
             messages.error(request, 'Name for the To-Do Item is required')
@@ -383,6 +387,9 @@ def add_todo_item(request):
         
         if progress == '-':
             progress = None
+            
+        if category == '-':
+            category = None
             
         if not date:
             date = None
@@ -392,7 +399,9 @@ def add_todo_item(request):
             date = date,
             progress = progress,
             owner = request.user,
-            progress_style = styling[progress]
+            progress_style = styling[progress],
+            category = category,
+            category_style = category_styling[category],
         )
         todo_item.save()
         
@@ -402,12 +411,14 @@ def add_todo_item(request):
 def edit_todo_item(request, todo_id):
     todo = ToDoItem.objects.get(pk=todo_id)
     progress_options = Progress.objects.all()
-    
+    category_options = Category.objects.all()
+
     context = {
         'progress_options': progress_options,
         'edit_todo': True,
         'todo': todo,
         'values': request.POST,
+        'category_options': category_options,
     }
     
     if request.method == 'GET':
@@ -419,6 +430,8 @@ def edit_todo_item(request, todo_id):
         formatted_date = input_date
         progress = request.POST['progress']
         styling = {'Not Started': 'not-started', 'In Progress': 'in-progress', 'Finished': 'finished', 'Cancelled': 'cancelled', 'Urgent!': 'urgent', None: None}
+        category = request.POST['category']
+        category_styling = {'Urgent!': 'urgent', 'Important!': 'cancelled', None: None}
 
         
         if not name:
@@ -427,6 +440,9 @@ def edit_todo_item(request, todo_id):
         
         if progress == '-':
             progress = None
+            
+        if category == '-':
+            category = None
             
         if not formatted_date or formatted_date == '':
             formatted_date = None;
@@ -443,6 +459,8 @@ def edit_todo_item(request, todo_id):
         todo.progress = progress
         todo.owner = request.user
         todo.progress_style = styling[progress]
+        todo.category = category
+        todo.category_style = category_styling[category]
 
         todo.save()
         

@@ -68,9 +68,14 @@
                     <div class="todo-info">
                         <div class="todo-name">
                             <h6>{{todo.name}}</h6>
-                            {% if todo.progress %}
-                            <div class="todo-progress {{todo.progress_style}}">{{todo.progress}}</div>
-                            {% endif %}
+                            <div class="tags">
+                                {% if todo.progress %}
+                                <div class="todo-progress {{todo.progress_style}}">{{todo.progress}}</div>
+                                {% endif %}
+                                {% if todo.category %}
+                                <div class="todo-category {{todo.category_style}}">{{todo.category}}</div>
+                                {% endif %}
+                            </div>
                         </div>
                         {% if todo.date %}
                         <span>{{todo.date}}</span>

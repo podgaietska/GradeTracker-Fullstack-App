@@ -36,6 +36,16 @@
                                     {% endfor %}
                                 </select>                             
                             </div>
+                            <div class="form-group select">
+                                <label for="">Category</label>
+                                <select class="form-control" name="category">
+                                    <option name="category" value="{% if edit_todo %}{% if todo.category %}{{todo.category}}{% else %}-{% endif %}{% else %}-{% endif %}">{% if edit_todo %}{% if todo.category %}{{todo.category}}{% else %}-{% endif %}{% else %}-{% endif %}</option>
+                                    {% if edit_todo %}{% if todo.category %} <option name="category" value="-">-</option> {% endif %}{% endif %}
+                                    {% for category in category_options %}
+                                        {% if category.name != todo.category %}<option name="category" value="{{category}}">{{category}}</option>{% endif %}
+                                    {% endfor %}
+                                </select>                             
+                            </div>
                         </div>                   
                     </div> 
                 </form>

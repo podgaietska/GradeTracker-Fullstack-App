@@ -115,12 +115,24 @@ class ToDoItem(models.Model):
     owner = models.ForeignKey(to=User, on_delete=models.CASCADE)
     progress = models.CharField(max_length=100, null=True, blank=True)
     progress_style = models.CharField(max_length=100, null=True, blank=True, default=None)
+    category = models.CharField(max_length=100, null=True, blank=True)
+    category_style = models.CharField(max_length=100, null=True, blank=True, default=None)
+
     
     def __str__(self):
         return self.name
     
     class Meta:
-        ordering = ['date']       
+        ordering = ['date']  
+        
+class Category(models.Model):
+    name = models.CharField(max_length=255)
+    
+    def __str__(self):
+        return self.name   
+    
+    class Meta:
+        verbose_name_plural = "Categories"
 
 class Progress(models.Model):
     name = models.CharField(max_length=255)
