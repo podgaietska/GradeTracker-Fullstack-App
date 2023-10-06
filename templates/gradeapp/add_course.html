@@ -2,16 +2,16 @@
 {% load static %}
 
 {% block content %}
-        <h4 class="add-course-title">Add New Course</h4>
+        <h4 class="add-window-title">Add New Course</h4>
         <div class="error-message">
             {% include 'partials/_messages.html' %}
         </div>
         
-        <div class="add-course-window">
-            <div class="add-course-card">
+        <div class="add-window">
+            <div class="add-window-card">
                 <form action="{% url 'add-course' %}" method="POST">
                     {% csrf_token %}
-                    <div class="course-information">
+                    <div class="component-information">
                         <h3>COURSE INFORMATION</h3>
                         <div class="form-group">
                             <label for="">Course Code</label>
@@ -52,10 +52,10 @@
                                 </select>                             
                             </div>
                         </div>
-                        <input type="submit" value="Submit" class="add-course-btn">
+                        <input type="submit" value="Submit" class="add-component-btn">
                     </div>
                     <div class="separator"></div>
-                    <div class="course-details">
+                    <div class="component-details">
                         <h3>COURSE COMPONENTS</h3>
                         <div id="grading-components">
                             <div class="grading-component">

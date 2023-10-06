@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+        <h4 class="add-window-title">{% if edit_todo %}Edit ToDo Item{% else %}Create ToDo Item{% endif %}</h4>
+        <div class="error-message">
+            {% include 'partials/_messages.html' %}
+        </div>
+        
+        <div class="add-window">
+            <div class="add-window-card todo">
+                <form action="{% if edit_todo %}{% url 'edit-todo-item' todo.id %}{% else %}{% url 'add-todo-item' %}{% endif %}" method="POST">
+                    {% csrf_token %}
+                    <div class="component-information">
+                        <h3>TODO ITEM</h3>
+                        <div class="form-group-todo">
+                            <label for="">To Do</label>
+                            <input type="text" name="name" class="form-control form-control-sm" value="{% if edit_todo %}{{todo.name}}{% else %}{{values.name}}{% endif%}">
+                        </div>
+                        <input type="submit" value="Create ToDo Item" class="add-component-btn">
+                    </div>
+                    <div class="component-details">
+                        <h3>TODO INFORMATION</h3>
+                        <div class="form-group-date">
+                            <label for="">Due Date</label>
+                            <input type="type" name="date" class="form-control form-control-sm"  value="{% if edit_todo %}{% if todo.date %}{{todo.date}}{% endif %}{% else %}{{values.date}}{% endif %}" placeholder="DD-MM-YYYY" onfocus="(this.type='date')" onblur="(this.type='text')">
+                        </div>   
+                        <div class="progress-options">
+                            <div class="form-group select">
+                                <label for="">Progress</label>
+                                <select class="form-control" name="progress">
+                                    <option name="progress" value="{% if edit_todo %}{% if todo.progress %}{{todo.progress}}{% else %}-{% endif %}{% else %}-{% endif %}">{% if edit_todo %}{% if todo.progress %}{{todo.progress}}{% else %}-{% endif %}{% else %}-{% endif %}</option>
+                                    {% if edit_todo %}{% if todo.progress %} <option name="progress" value="-">-</option> {% endif %}{% endif %}
+                                    {% for progress in progress_options %}
+                                        {% if progress.name != todo.progress %}<option name="progress" value="{{progress}}">{{progress}}</option>{% endif %}
+                                    {% endfor %}
+                                </select>                             
+                            </div>
+                        </div>                   
+                    </div> 
+                </form>
+            </div>
+            <div class="tips-on-adding">
+                <div class="tip">
+                    <h5>Tip 1</h5>
+                    <p><span>You don’t have to fill in the date or the progress fields </span>for the to-do item if you don’t want to! Simply leave the blank.</p>
+                </div>
+                <!-- <div class="tip">
+                    <h5>Tip 2</h5>
+                    <p>We tried to give you options of as many grading components as possible, but if we missed any, just <span>select one that fits the best!</span><br/> <br/> In the Component Weight field - <span>divide percentage weight of your component by 100</span>. This should give you a decimal number from 0 - 1. The weights of all of your components should add  up to 1. </p>
+                </div> -->
+            </div>
+        </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'js/addGradingComponent.js' %}"></script>
+
+{% endblock %}

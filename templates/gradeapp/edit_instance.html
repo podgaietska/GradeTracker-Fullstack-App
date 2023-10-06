@@ -2,16 +2,16 @@
 {% load static %}
 
 {% block content %}
-<h4 class="add-course-title">Add New Instance</h4>
+<h4 class="add-window-title">{% if edit_instance %}Edit Instance{% else %}Add New Instance{% endif %}</h4>
 <div class="error-message">
     {% include 'partials/_messages.html' %}
 </div>
 
-<div class="add-course-window">
-    <div class="add-course-card">
+<div class="add-window">
+    <div class="add-window-card instance">
         <form action="{% if edit_instance %}{% url 'edit-instance' event.id %}{% else %}{% url 'add-instance' component.id %}{% endif %}" method="POST"> 
             {% csrf_token %}
-            <div class="course-information">
+            <div class="component-information">
                 <h3>GRADING COMPONENT</h3>
                 <div class="form-group">
                     <label for="">Course Code</label>
@@ -21,10 +21,10 @@
                     <label for="">Course Grading Component</label>
                     <input type="text" class="form-control form-control-sm" value="{% if edit_instance %}{{grading_component.name}}{% else %}{{component.grading_component.name}}{% endif %}" readonly>
                 </div>
-                <input type="submit" value="Submit" class="add-course-btn">
+                <input type="submit" value="Submit" class="add-component-btn">
             </div>
             <div class="separator"></div>
-            <div class="course-details">
+            <div class="component-details">
                 <h3>ASSIGNMENT INFORMATION</h3>
                 <div class="form-group">
                     <label for="">Assignment/Quiz Name</label>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="form-group">
                     <label for="">Assignment Due Date/ Quiz Date</label>
-                    <input type="type" name="date" class="form-control form-control-sm"  value="{% if edit_instance %}{{event.date}}{% else %}{{values.date}}{% endif %}" placeholder="DD-MM-YYYY" onfocus="(this.type='date')" onblur="(this.type='text')">
+                    <input type="type" name="date" class="form-control form-control-sm"  value="{% if edit_instance %}{{event.date}}{% endif %}" placeholder="DD-MM-YYYY" onfocus="(this.type='date')" onblur="(this.type='text')">
                 </div>
                     <div class="form-group">
                         <label for="">Your Grade / Total Marks</label>
@@ -52,11 +52,11 @@
     <div class="tips-on-adding">
         <div class="tip">
             <h5>Tip 1</h5>
-            <p>If your class doesn’t have a lab or a seminar, not to worry! Just leave the field blank. But <span>make sure you enter the Lecture Section.</span> There are no classes with not lectures!</p>
+            <p>The grading component and the course you are adding/editing the instance for is unchangeable. It you want to <span>add/edit an instance to a different course of grading component, simply go back using the browser controls.</span></p>
         </div>
         <div class="tip">
             <h5>Tip 2</h5>
-            <p>We tried to give you options of as many grading components as possible, but if we missed any, just <span>select one that fits the best!</span><br/> <br/> In the Component Weight field - <span>divide percentage weight of your component by 100</span>. This should give you a decimal number from 0 - 1. The weights of all of your components should add  up to 1. </p>
+            <p>If your you don’t know your grade or the total marks for the assignment, <span>just leave it blank!</span> You can always go back to and edit it.<br/> <br/> If you input a random grade, its going to mess with your GPA calculations and overall grade for the course. So be aware! <span>It is in your interest to enter only truthful numbers</span></p>
         </div>
     </div>
 </div>

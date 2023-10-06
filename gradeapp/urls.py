@@ -4,6 +4,8 @@ from . import views
 urlpatterns =[
     path('', views.index, name="gradeapp"),
     path('add-course', views.add_course, name="add-course"),
+    path('add-todo-item', views.add_todo_item, name="add-todo-item"),
+    path('edit-todo-item/<int:todo_id>', views.edit_todo_item, name="edit-todo-item"),
     path('get-grading-components', views.get_grading_components, name="get-grading-components"),
     path('get-courses', views.get_courses, name="get-couses"),
     path('course-home/<int:course_id>', views.course_home, name="course-home"),

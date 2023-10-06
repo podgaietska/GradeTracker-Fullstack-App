@@ -99,7 +99,7 @@
                                 <option name="lab-section" value="{% if course.lab %}{{course.lab}}{% else %}-{% endif %}">{% if course.lab %}{{course.lab}}{% else %}-{% endif %}</option>
                                 {% if course.lab %} <option name="lab-section" value="-">-</option> {% endif %}
                                 {% for lab in lab_sections %}
-                                {% if lab != course.lab %}<option name="lab-section" value="{{lab}}">{{lab}}</option>{% endif %}
+                                    {% if lab != course.lab %}<option name="lab-section" value="{{lab}}">{{lab}}</option>{% endif %}
                                 {% endfor %}
                             </select>  
                         </div>
@@ -109,7 +109,7 @@
                                 <option name="seminar-section" value="{% if course.seminar %}{{course.seminar}}{% else %}-{% endif %}">{% if course.seminar %}{{course.seminar}}{% else %}-{% endif %}</option>
                                 {% if course.seminar %} <option name="seminar-section" value="-">-</option> {% endif %}
                                 {% for seminar in seminar_sections %}
-                                {% if seminar != course.seminar %}<option name="seminar-section" value="{{seminar}}">{{seminar}}</option>{% endif %}
+                                    {% if seminar != course.seminar %}<option name="seminar-section" value="{{seminar}}">{{seminar}}</option>{% endif %}
                                 {% endfor %}
                             </select> 
                         </div>

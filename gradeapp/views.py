@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Course, GradingComponent, CourseGradingComponent, Event
+from .models import Course, GradingComponent, CourseGradingComponent, Event, ToDoItem, Progress
 from django.contrib import messages
 from django.core import serializers
 from datetime import datetime
@@ -13,11 +13,14 @@ import re
 def index(request):
     courses = Course.objects.filter(owner=request.user)
     events = Event.objects.filter(owner = request.user)
+    todo_items = ToDoItem.objects.filter(owner = request.user)
     
     context = {
         'courses': courses,
         'events': events,
+        'todo_items': todo_items,
     }
+    
     return render(request, 'gradeapp/index.html', context)  
 
 def get_grading_components(request):
@@ -56,6 +59,7 @@ def add_course(request):
         seminar_section = request.POST['seminar-section']
         grading_components = request.POST.getlist('grading-component')
         weights = request.POST.getlist('weight')
+        print(weights)
         totalweight = 0
         
         if not name:
@@ -81,7 +85,11 @@ def add_course(request):
             return render(request, 'gradeapp/add_course.html', context)
         
         for weight in weights:
-            totalweight += float(weight)
+            if weight == '' or not weight:
+                messages.error(request, 'Weights are required')
+                return render(request, 'gradeapp/add_course.html', context)
+            else:
+                totalweight += float(weight)
                 
         if totalweight != 1:
                 messages.error(request, 'Weights of course components must add up to 1 (100%)')
@@ -280,10 +288,13 @@ def edit_instance(request, event_id):
         student_grade = request.POST['student-grade']
         max_grade = request.POST['max-grade']
         
-        if not re.match(r'^\d{4}-\d{2}-\d{2}$', input_date):    
-            parsed_date = datetime.strptime(input_date, '%b. %d, %Y')
-            formatted_date = parsed_date.strftime('%Y-%m-%d')
-        
+        if not formatted_date or formatted_date == '':
+            formatted_date = None;
+        else: 
+            if not re.match(r'^\d{4}-\d{2}-\d{2}$', input_date):    
+                parsed_date = datetime.strptime(input_date, '%b. %d, %Y')
+                formatted_date = parsed_date.strftime('%Y-%m-%d') 
+                
         if not student_grade or student_grade == '0':
             student_grade = None
             
@@ -348,6 +359,92 @@ def edit_grades(request, course_id):
     if request.method == 'GET':
         print(exam_has_event)
         return render(request, 'gradeapp/course_home.html', context)
+
+def add_todo_item(request):
+    progress_options = Progress.objects.all()
     
+    context = {
+        'progress_options': progress_options,
+        'values': request.POST,
+    }
     
+    if request.method == 'GET':
+        return render(request, 'gradeapp/add_todo_item.html', context)
     
+    if request.method == 'POST':
+        name = request.POST['name']
+        date = request.POST['date']
+        progress = request.POST['progress']
+        styling = {'Not Started': 'not-started', 'In Progress': 'in-progress', 'Finished': 'finished', 'Cancelled': 'cancelled', 'Urgent!': 'urgent', None: None}
+                        
+        if not name:
+            messages.error(request, 'Name for the To-Do Item is required')
+            return render(request, 'gradeapp/add_todo_item.html', context)
+        
+        if progress == '-':
+            progress = None
+            
+        if not date:
+            date = None
+        
+        todo_item = ToDoItem(
+            name = name,
+            date = date,
+            progress = progress,
+            owner = request.user,
+            progress_style = styling[progress]
+        )
+        todo_item.save()
+        
+        messages.success(request, 'To-Do Item added successfully')
+        return redirect('gradeapp')
+
+def edit_todo_item(request, todo_id):
+    todo = ToDoItem.objects.get(pk=todo_id)
+    progress_options = Progress.objects.all()
+    
+    context = {
+        'progress_options': progress_options,
+        'edit_todo': True,
+        'todo': todo,
+        'values': request.POST,
+    }
+    
+    if request.method == 'GET':
+        return render(request, 'gradeapp/add_todo_item.html', context);
+    
+    if request.method == 'POST':
+        name = request.POST['name']
+        input_date = request.POST['date']
+        formatted_date = input_date
+        progress = request.POST['progress']
+        styling = {'Not Started': 'not-started', 'In Progress': 'in-progress', 'Finished': 'finished', 'Cancelled': 'cancelled', 'Urgent!': 'urgent', None: None}
+
+        
+        if not name:
+            messages.error(request, 'Name for the To-Do Item is required')
+            return render(request, 'gradeapp/add_todo_item.html', context)
+        
+        if progress == '-':
+            progress = None
+            
+        if not formatted_date or formatted_date == '':
+            formatted_date = None;
+        else: 
+            if not re.match(r'^\d{4}-\d{2}-\d{2}$', input_date):    
+                parsed_date = datetime.strptime(input_date, '%b. %d, %Y')
+                formatted_date = parsed_date.strftime('%Y-%m-%d')   
+
+        todo.name = name
+        if formatted_date:
+            todo.date = formatted_date
+        else:
+            todo.date = None
+        todo.progress = progress
+        todo.owner = request.user
+        todo.progress_style = styling[progress]
+
+        todo.save()
+        
+        messages.success(request, 'To-Do Item updated successfully')
+        return redirect('gradeapp')

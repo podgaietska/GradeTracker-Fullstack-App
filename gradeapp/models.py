@@ -79,13 +79,6 @@ class CourseGradingComponent(models.Model):
         return self.course.code+' - '+self.grading_component.name
 
 class Event(models.Model):
-    PROGRESS_TYPES = (
-        ('Not Started', 'Not Started'),
-        ('In Progress', 'In Progress'),
-        ('Finished', 'Finished'),
-        ('Cancelled', 'Cancelled'),
-        ('Urgent!', 'Urgent!'),
-    )
     
     name = models.CharField(max_length=255)
     student_grade = models.IntegerField(null=True, blank=True)
@@ -94,7 +87,6 @@ class Event(models.Model):
     date = models.DateField()
     course = models.ForeignKey(to=Course, on_delete=models.CASCADE)
     owner = models.ForeignKey(to=User, on_delete=models.CASCADE)
-    progress = models.CharField(max_length=100, choices=PROGRESS_TYPES, default='Not Started')
     
     def __str__(self):
         return self.name
@@ -116,13 +108,22 @@ class Event(models.Model):
             return (student_grade_float / max_grade_float) * float(self.weight)
         else:
             return 0
-        
-# class Progress(models.Model):
-#     description = models.CharField(max_length=100)
+
+class ToDoItem(models.Model):
+    name = models.CharField(max_length=255)
+    date = models.DateField(null=True, blank=True)
+    owner = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    progress = models.CharField(max_length=100, null=True, blank=True)
+    progress_style = models.CharField(max_length=100, null=True, blank=True, default=None)
     
-#     class Meta:
-#         verbose_name_plural = 'Categories'  # plural form of category
-     
-#     def __str__(self):
-#         return self.name
-        
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        ordering = ['date']       
+
+class Progress(models.Model):
+    name = models.CharField(max_length=255)
+    
+    def __str__(self):
+        return self.name

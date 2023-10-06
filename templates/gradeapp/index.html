@@ -17,41 +17,7 @@
 </div>
 {% endif %}
 <div class="grid-container">
-    <div class="to-do-list-container grid-box">
-        <div class="view-window">
-            <div class="view-window-header">
-                <h6>TO DO LIST</h6>
-                <button class="add-todo-item-btn">Add Item</button>
-            </div>
-            <div class="view-window-body">
-                <div class="todo-item">
-                    <div class="checkbox">
-                        <input type="checkbox" id="checkbox">
-                        <label for="checkbox"></label>
-                    </div>
-                    <div class="todo-name">
-                        <h6>Finish Resume</h6>
-                        <span>Feb 12 by 2pm</span>
-                    </div>
-                </div>
-                <div class="todo-item">
-                    <div class="checkbox">
-                        <input type="checkbox" id="checkbox">
-                        <label for="checkbox"></label>
-                    </div>
-                    <div class="todo-name">
-                        <h6>Email prof about lab grade</h6>
-                        <span>Feb 10</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="upcoming-deadlines-container grid-box">
-    {% include 'partials/_deadlines.html' %}
-    </div>
-    {% if courses.count %}
-    <div class="grades-container grid-box">
+    <div class="grades-container box">
         <div class="view-window">
             <div class="view-window-header">
                 <h6>GRADES - QUICK GLANCE</h6>
@@ -80,8 +46,44 @@
             </div>
         </div>
     </div>
-    {% endif %}
-    <div class="gpa-estimator-container grid-box"></div>
+    <div class="upcoming-deadlines-container box">
+        {% if events%}
+        {% include 'partials/_deadlines.html' %}
+        {% else %}
+        <h6>No upcoming events found</h6>
+        {% endif %}
+    </div>
+    <div class="to-do-list-container box">
+        <div class="view-window">
+            <div class="view-window-header">
+                <h6>TO DO LIST</h6>
+                <a href="{% url 'add-todo-item' %}" class="add-todo-item-btn">Add Item</a>
+            </div>
+            <div class="view-window-body">
+                {% for todo in todo_items %}
+                <div class="todo-item">
+                    <div class="edit-todo">
+                        <a href="{% url 'edit-todo-item' todo.id %}"><i class="bx bx-pencil"></i></a>
+                    </div>
+                    <div class="todo-info">
+                        <div class="todo-name">
+                            <h6>{{todo.name}}</h6>
+                            {% if todo.progress %}
+                            <div class="todo-progress {{todo.progress_style}}">{{todo.progress}}</div>
+                            {% endif %}
+                        </div>
+                        {% if todo.date %}
+                        <span>{{todo.date}}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="gpa-estimator-container box">
+        
+    </div>
 </div>
 
 
