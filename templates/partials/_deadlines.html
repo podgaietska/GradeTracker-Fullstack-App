@@ -5,12 +5,24 @@
         <div class="view-window-body">
             {% for event in events %}
             <div class="calendar-event">
-                <div class="calendar-event-date">
-                    <h6>{{ event.date }}</h6>
+                <div class="calendar-event-left">
+                    <div class="calendar-event-date">
+                        <h6>{{ event.date }}</h6>
+                    </div>
+                    <div class="calendar-event-info">
+                        <h6>{{ event.name }} - {{event.course.code}}</h6>
+                        <!-- <p>{{ event.due_time }}</p> -->
+                    </div>
                 </div>
-                <div class="calendar-event-info">
-                    <h6>{{ event.name }} - {{event.course.code}}</h6>
-                    <p>{{ event.due_time }}</p>
+                <div class="calendar-event-right">
+                    <div class="tags-calendar">
+                        {% if event.progress %}
+                        <div class="todo-progress {{event.progress_style}}">{{event.progress}}</div>
+                        {% endif %}
+                        {% if event.category %}
+                        <div class="todo-category {{event.category_style}}">{{event.category}}</div>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
             {% endfor %}

@@ -79,7 +79,6 @@ class CourseGradingComponent(models.Model):
         return self.course.code+' - '+self.grading_component.name
 
 class Event(models.Model):
-    
     name = models.CharField(max_length=255)
     student_grade = models.IntegerField(null=True, blank=True)
     max_grade = models.IntegerField(null=True, blank=True)
@@ -87,6 +86,10 @@ class Event(models.Model):
     date = models.DateField()
     course = models.ForeignKey(to=Course, on_delete=models.CASCADE)
     owner = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    progress = models.CharField(max_length=100, null=True, blank=True)
+    progress_style = models.CharField(max_length=100, null=True, blank=True, default=None)
+    category = models.CharField(max_length=100, null=True, blank=True)
+    category_style = models.CharField(max_length=100, null=True, blank=True, default=None)
     
     def __str__(self):
         return self.name

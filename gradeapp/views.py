@@ -202,6 +202,8 @@ def course_home(request, course_id):
         return render(request, 'gradeapp/course_home.html', context)
 
 def add_instance(request, grading_component_id):
+    progress_options = Progress.objects.all()
+    category_options = Category.objects.all()
     component = CourseGradingComponent.objects.get(pk=grading_component_id)
     is_exam = False
     
@@ -212,6 +214,8 @@ def add_instance(request, grading_component_id):
         'component': component,
         'values': request.POST,
         'is_exam': is_exam,
+        'progress_options': progress_options,
+        'category_options': category_options,
     }
     
     if request.method == 'GET': 
@@ -221,7 +225,17 @@ def add_instance(request, grading_component_id):
         grading_component = component.grading_component
         course = component.course
         name = grading_component.name
+        progress = request.POST['progress']
+        styling = {'Not Started': 'not-started', 'In Progress': 'in-progress', 'Finished': 'finished', 'Cancelled': 'cancelled', 'Urgent!': 'urgent', None: None}
+        category = request.POST['category']
+        category_styling = {'Urgent!': 'urgent', 'Important!': 'cancelled', None: None}
         
+        if progress == '-':
+            progress = None
+            
+        if category == '-':
+            category = None
+            
         if not is_exam:
             name = request.POST['name']
             
@@ -255,7 +269,11 @@ def add_instance(request, grading_component_id):
             grading_component = grading_component,
             date = date,
             course = course,
-            owner = request.user
+            owner = request.user,
+            progress = progress,
+            progress_style = styling[progress],
+            category = category,
+            category_style = category_styling[category],
         )
         event.save()
         
@@ -266,6 +284,8 @@ def edit_instance(request, event_id):
     event = Event.objects.get(pk=event_id)
     course = event.course
     grading_component = event.grading_component
+    progress_options = Progress.objects.all()
+    category_options = Category.objects.all()
     
     context = {
         'edit_instance': True,
@@ -273,6 +293,8 @@ def edit_instance(request, event_id):
         'grading_component': grading_component,
         'event': event,
         'course': course.code,
+        'progress_options': progress_options,
+        'category_options': category_options,
     }
     
     if request.method == 'GET': 
@@ -288,6 +310,17 @@ def edit_instance(request, event_id):
         student_grade = request.POST['student-grade']
         max_grade = request.POST['max-grade']
         
+        progress = request.POST['progress']
+        styling = {'Not Started': 'not-started', 'In Progress': 'in-progress', 'Finished': 'finished', 'Cancelled': 'cancelled', 'Urgent!': 'urgent', None: None}
+        category = request.POST['category']
+        category_styling = {'Urgent!': 'urgent', 'Important!': 'cancelled', None: None}
+        
+        if progress == '-':
+            progress = None
+            
+        if category == '-':
+            category = None
+            
         if not formatted_date or formatted_date == '':
             formatted_date = None;
         else: 
@@ -321,6 +354,10 @@ def edit_instance(request, event_id):
         event.grading_component = grading_component
         event.date = formatted_date
         event.course = course
+        event.progress = progress
+        event.progress_style = styling[progress]
+        event.category = category
+        event.category_style = category_styling[category]
         
         event.save()
         
