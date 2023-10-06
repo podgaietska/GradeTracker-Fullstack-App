@@ -354,13 +354,6 @@
     margin-top: 1rem;
 }
 
-/* Alerts */
-.alert{
-    font-size: 0.9rem;
-    width: 90%;
-    cursor: pointer;
-}
-
 /* Dashboard */
 
 /* Course List */
@@ -971,6 +964,24 @@
     max-height: 35rem;
 }
 
+/* Messages */
+.messages{
+    height: 3.5rem;
+    margin-bottom: 0.5rem;
+    width: 93%;
+}
+
+.alert{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.message-close-btn{
+    cursor: pointer;
+}
 
 
 

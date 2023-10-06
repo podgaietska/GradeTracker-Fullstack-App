@@ -1,10 +1,16 @@
+{% load static %}
+
 {% if messages %}
 <div class="messages">
     {% for message in messages %}
-        <div{%if message.tags %} class="alert alert-sm alert-{{ message.tags }}"{% endif %}>
+        <div {% if message.tags %} class="alert alert-sm alert-{{ message.tags }}"{% endif %}>
             {{ message }}
+            <div class="message-close-btn">x</div>
         </div>
     {% endfor %}
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'js/messages.js' %}"></script>
 {% endif %}
 
