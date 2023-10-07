@@ -14,11 +14,13 @@ def index(request):
     courses = Course.objects.filter(owner=request.user)
     events = Event.objects.filter(owner = request.user)
     todo_items = ToDoItem.objects.filter(owner = request.user)
+    user = request.user
     
     context = {
         'courses': courses,
         'events': events,
         'todo_items': todo_items,
+        'user': user,
     }
     
     return render(request, 'gradeapp/index.html', context)  

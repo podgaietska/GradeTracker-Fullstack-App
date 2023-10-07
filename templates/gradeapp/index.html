@@ -3,7 +3,7 @@
 {% block content %}
 
 {% include 'partials/_messages.html' %}
-<h4>My Dashboard</h4>
+<h4 class="page-title">My Dashboard</h4>
 {% if courses.count %}
 <div class="course-list-container">
     <ul class="course-list">
@@ -23,6 +23,7 @@
                 <h6>GRADES - QUICK GLANCE</h6>
                 <span>View more</span>
             </div>
+            {% if courses.count%}
             <div class="view-window-body">
                 {% for course in courses %}
                 <div class="course-grade-row">
@@ -44,10 +45,15 @@
                 </div>
                 {% endfor %}
             </div>
+            {% else %}
+            <div class="empty-container">
+                <h6>No courses found</h6>
+            </div>
+            {% endif %}
         </div>
     </div>
     <div class="upcoming-deadlines-container box">
-        {% if events%}
+        {% if events %}
         {% include 'partials/_deadlines.html' %}
         {% else %}
         <h6>No upcoming events found</h6>
@@ -59,6 +65,7 @@
                 <h6>TO DO LIST</h6>
                 <a href="{% url 'add-todo-item' %}" class="add-todo-item-btn">Add Item</a>
             </div>
+            {% if todo_items %}
             <div class="view-window-body">
                 {% for todo in todo_items %}
                 <div class="todo-item">
@@ -84,6 +91,11 @@
                 </div>
                 {% endfor %}
             </div>
+            {% else %}
+            <div class="empty-container">
+                <h6>No To-Do items found</h6>
+            </div>
+            {% endif %}
         </div>
     </div>
     <div class="gpa-estimator-container box">

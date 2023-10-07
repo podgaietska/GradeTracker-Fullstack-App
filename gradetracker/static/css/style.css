@@ -46,23 +46,40 @@
     margin: 0;
     padding: 10%;
   }
+
+.page-title{
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
 /* Top Nav */
 
 .top-nav{
     height:3.4rem;
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     z-index: 88;
     border-bottom: 1px solid var(--grey2);
+    background: white;
 }
 
 .top-nav-profile{
     height: 100%;
-    width: 100%;
-    background: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 3rem;
+}
+
+.top-nav-profile p{
+    margin-left: 1rem;
+    font-size: 0.8rem;
 }
 
 /* Sidebar */
@@ -775,7 +792,6 @@
     padding: 1rem 0;
     display: flex;
     flex-direction: column;
-    background: white;
 }
 
 .view-window-header{
@@ -791,7 +807,14 @@
     font-size: 0.8rem;
     color: var(--greytext);
     cursor: pointer;
+}
 
+.empty-container{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Course Home */
