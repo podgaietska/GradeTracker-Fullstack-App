@@ -21,7 +21,7 @@
                             {% if edit_grades %}
                             <div class="edit-mode-grade">
                                 <p>{% if total_grades|get_value:component.grading_component.id != 0 %}{{ total_grades|get_value:component.grading_component.id|floatformat:3 }}{% else %}0{% endif %}/{{ component.weight }}</p>
-                                <a href="{% if exam_has_event|get_value:component.grading_component.name != False%}{% url 'edit-instance' exam_has_event|get_value:component.grading_component.name %}{% else %}{% url 'add-instance' component.id %}{% endif %}"><i class="bx bx-pencil"></i></a>
+                                <a href="{% if exam_has_event|get_value:component.grading_component.name != False %}{% url 'edit-instance' exam_has_event|get_value:component.grading_component.name %}{% else %}{% url 'add-instance' component.id %}{% endif %}"><i class="bx bx-pencil"></i></a>
                                 <p>x</p>
                             </div>
                             {% else %}

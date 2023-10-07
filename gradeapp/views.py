@@ -388,13 +388,18 @@ def edit_grades(request, course_id):
         if event.grading_component.id in total_grades:
             total_grades[event.grading_component.id] += event.grade
         if event.grading_component.name == 'Final Exam':
-            exam_has_event['Final Exam'] = event.grading_component.id
+            exam_has_event['Final Exam'] = event.id
         if event.grading_component.name == 'Midterm':
-            exam_has_event['Midterm'] = event.grading_component.id
+            exam_has_event['Midterm'] = event.id
         if event.grading_component.name == 'Midterm 2':
-            exam_has_event['Midterm 2'] = event.grading_component.id
+            exam_has_event['Midterm 2'] = event.id
         if event.grading_component.name == 'Final Project':
-            exam_has_event['Final Project'] = event.grading_component.id
+            exam_has_event['Final Project'] = event.id
+    
+    for event in events:
+        print(event.id)
+        
+    print(exam_has_event)
     
     context = {
         'course': course,
