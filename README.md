@@ -5,7 +5,7 @@ GradeTracker is a Full-stack App, with front-end hardcoded in HTML, Javascript a
 
 
 ## 🙈  Sneak Peak
-![ezgif com-video-to-gif](https://github.com/podgaietska/GradeTracker-Fullstack-App/assets/113950195/31e9e49b-a85e-4f18-b5b7-ded2d3b947a6)
+![ezgif com-video-to-gif](https://github.com/podgaietska/GradeTracker-Fullstack-App/assets/113950195/a2e1eec1-44c5-4a83-b863-d73dd79bc54f)
 
 
 ## 💻  Tech Stack
