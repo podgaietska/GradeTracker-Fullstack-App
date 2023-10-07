@@ -21,7 +21,7 @@
                     <label for="">Course Grading Component</label>
                     <input type="text" class="form-control form-control-sm" value="{% if edit_instance %}{{grading_component.name}}{% else %}{{component.grading_component.name}}{% endif %}" readonly>
                 </div>
-                <input type="submit" value="Submit" class="add-component-btn">
+                <input type="submit" value="{% if edit_instance %}Update{% else %}Submit{% endif %}" class="add-component-btn">
             </div>
             <div class="separator"></div>
             <div class="component-details">

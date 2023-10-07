@@ -17,7 +17,7 @@
                             <label for="">To Do</label>
                             <input type="text" name="name" class="form-control form-control-sm" value="{% if edit_todo %}{{todo.name}}{% else %}{{values.name}}{% endif%}">
                         </div>
-                        <input type="submit" value="Create ToDo Item" class="add-component-btn">
+                        <input type="submit" value="{% if edit_todo %}Update ToDo Item{% else %}Create ToDo Item{% endif %}" class="add-component-btn">
                     </div>
                     <div class="component-details">
                         <h3>TODO INFORMATION</h3>
@@ -55,10 +55,6 @@
                     <h5>Tip 1</h5>
                     <p><span>You don’t have to fill in the date or the progress fields </span>for the to-do item if you don’t want to! Simply leave the blank.</p>
                 </div>
-                <!-- <div class="tip">
-                    <h5>Tip 2</h5>
-                    <p>We tried to give you options of as many grading components as possible, but if we missed any, just <span>select one that fits the best!</span><br/> <br/> In the Component Weight field - <span>divide percentage weight of your component by 100</span>. This should give you a decimal number from 0 - 1. The weights of all of your components should add  up to 1. </p>
-                </div> -->
             </div>
         </div>
 

@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.core import serializers
 from datetime import datetime
 import re
-from django.db.models import Avg
+from decimal import Decimal
 
 
 # Create your views here.
@@ -71,7 +71,7 @@ def add_course(request):
         grading_components = request.POST.getlist('grading-component')
         weights = request.POST.getlist('weight')
         print(weights)
-        totalweight = 0
+        totalweight = Decimal('0.0')
         
         if not name:
             messages.error(request, 'Course name is required')
@@ -100,9 +100,10 @@ def add_course(request):
                 messages.error(request, 'Weights are required')
                 return render(request, 'gradeapp/add_course.html', context)
             else:
-                totalweight += float(weight)
+                totalweight += Decimal(weight)
                 
-        if totalweight != 1:
+        print(totalweight)
+        if totalweight != Decimal('1.0'):
                 messages.error(request, 'Weights of course components must add up to 1 (100%)')
                 return render(request, 'gradeapp/add_course.html', context)
         
