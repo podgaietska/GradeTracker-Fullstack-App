@@ -18,6 +18,12 @@
 
   <body>
     <header class="top-nav">
+      <div class="sidebar-brand-container flex-center">
+        <a class="title" href="#">GradeTracker</a>
+        <div class="burger-menu">
+          <i class='bx bx-menu sidebar-toggle' id="sidebar-toggle"></i>
+        </div>
+      </div>
       <div class="top-nav-profile">
 
       </div>
@@ -27,9 +33,11 @@
       <div class="row">
         {% include 'partials/_sidebar.html' %}
 
-        <main class="main-container">
-          {% block content %}
-          {% endblock %}
+        <main>
+          <div class="main-container">
+            {% block content %}
+            {% endblock %}
+          </div>
         </main>
       </div>
     </div>

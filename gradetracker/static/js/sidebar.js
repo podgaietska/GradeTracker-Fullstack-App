@@ -25,3 +25,5 @@ function updateCourseList() {
 
 document.addEventListener('DOMContentLoaded', updateCourseList);
 
+
+

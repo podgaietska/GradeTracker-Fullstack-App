@@ -3,12 +3,7 @@
 
 {% block content%}
 
-<div class="row">
-    <div class="col-md-4"></div>
-
-    <div class="col-md-4">
-        <div class="card mt-5">
-
+<div class="login">
             <div class="card-body">
                 <div class="card-title py-3">
                     <h4>Sign Up</h4>
@@ -33,11 +28,9 @@
                         <small class="float-end py-2 password-toggle">SHOW</small>
                     </div>
                     <input type="submit" value="Register" class="btn btn-block btn-primary mt-4 w-100 submit-btn" />
+                    <a href="{% url 'login' %}">Already have an account? Login here</a>
                 </form>
             </div>
-        </div>
-    </div>
-    <div class="col-md-4"></div>
 </div>
 
 <script src="{% static 'js/register.js' %}"></script>
