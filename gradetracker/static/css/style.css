@@ -817,6 +817,15 @@
     align-items: center;
 }
 
+/* GPA CALCULATOR */
+.gpa-estimator h6{
+    font-size: 0.8rem;
+}
+
+.gpa-estimator h3{
+    color: rgba(21, 111, 230, 0.5);
+}
+
 /* Course Home */
 /* Grades */
 

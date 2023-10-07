@@ -39,7 +39,7 @@ class RegistrationView(View):
         email = request.POST['email']
         password = request.POST['password']
         
-        context = {   #fielld values remain in the form if password is too shrort
+        context = { 
             'fieldValues': request.POST
         }
         
@@ -53,6 +53,8 @@ class RegistrationView(View):
                 user.set_password(password)
                 user.save()
                 
+                auth.login(request, user)
+
                 messages.success(request, 'Account created successfully')
                 return redirect('gradeapp')
                 

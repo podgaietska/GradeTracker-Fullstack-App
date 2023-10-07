@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.core import serializers
 from datetime import datetime
 import re
+from django.db.models import Avg
 
 
 # Create your views here.
@@ -16,13 +17,19 @@ def index(request):
     todo_items = ToDoItem.objects.filter(owner = request.user)
     user = request.user
     
+    gpas = [course.calculate_gpa() for course in courses]
+    
+    gpa = sum(gpas) / len(gpas) if gpas else 0.0
+
     context = {
         'courses': courses,
         'events': events,
         'todo_items': todo_items,
         'user': user,
+        'gpa': gpa,
     }
     
+    print(gpa)
     return render(request, 'gradeapp/index.html', context)  
 
 def get_grading_components(request):

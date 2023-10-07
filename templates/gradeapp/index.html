@@ -99,9 +99,53 @@
         </div>
     </div>
     <div class="gpa-estimator-container box">
-        
+        {% if courses.count %}
+        <canvas id="myChart" width="500" height="100"></canvas>
+        <div class="gpa-estimator">
+            <h6>CURRENT GPA FOR SEMESTER ESTIMATOR</h6>
+            <h3>{{gpa}}</h3>
+        </div>
+        {% else %}
+        <div class="empty-container">
+            <h6>GPA cannot be calculated at the moment</h6>
+        </div>
+        {% endif %}
     </div>
+    <div id="gpa-data" data-gpa="{{ gpa }}"></div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Retrieve GPA from the data attribute
+    var gpaDataElement = document.getElementById('gpa-data');
+    var gpa = parseFloat(gpaDataElement.getAttribute('data-gpa'));
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+
+    var chart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            datasets: [{
+                data: [gpa, 4.0 - gpa],
+                backgroundColor: ['#156FE6', 'transparent'],
+                innerRadius: '80%', // Controls the size of the inner hole
+                outerRadius: '90%',
+            }],
+        },
+        options: {
+            cutout: 50,
+            rotation: 1 * Math.PI,
+            legend: {
+                display: false,
+            },
+            layout: {
+                padding: {
+                    left: 20, // Adjust the left padding to make room for the legend
+                    right: 20, // Adjust the right padding
+                },
+            },
+        },
+    });
+</script>
 
 {% endblock %}
