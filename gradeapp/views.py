@@ -70,8 +70,12 @@ def add_course(request):
         seminar_section = request.POST['seminar-section']
         grading_components = request.POST.getlist('grading-component')
         weights = request.POST.getlist('weight')
-        print(weights)
         totalweight = Decimal('0.0')
+        
+        course = Course.objects.filter(code=code, owner=request.user)
+        if course:
+            messages.error(request, 'Course with that code already exists')
+            return render(request, 'gradeapp/add_course.html', context)
         
         if not name:
             messages.error(request, 'Course name is required')
