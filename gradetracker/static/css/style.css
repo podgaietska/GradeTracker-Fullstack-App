@@ -391,6 +391,7 @@
     padding: 0.3rem;
     color: #D41F1F;
     font-size: 0.9rem;
+    margin-right: 1rem;
 }
 
 .add-component{
@@ -421,14 +422,19 @@
 .grading-component .form-group.weight{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
     width: 100%;
     margin-bottom: 0.3rem;
 }
 
 .grading-component .form-group.weight label{
-    width: 20%;
+
+    width: 40%;
+    margin-right: 0;
+}
+
+.grading-component .form-group.weight input{
+    width: 30%;
 }
 
 .added-component{

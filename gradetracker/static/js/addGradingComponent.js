@@ -2,7 +2,6 @@ const gradingComponents = document.querySelector('#grading-components');
 const addComponentBtn = document.querySelector('#add-component');
 
 function createNewComponent() {
-    console.log('button pressed');
     const newComponentDiv = document.createElement('div');
     newComponentDiv.classList.add('grading-component');
     newComponentDiv.classList.add('added-component');
@@ -41,10 +40,11 @@ document.addEventListener('click', function (e) {
     if (e.target.classList.contains('remove-component')) {
         // Access the parent element of the clicked button (the grading component)
         const gradingComponent = e.target.parentElement;
+        const elementToRemove = gradingComponent.parentElement;
 
         // Perform actions to delete the grading component
         // For example, you can remove it from the DOM
-        gradingComponent.remove();
+        elementToRemove.remove();
 
         // You can also send an AJAX request to delete it from the server if needed
     }

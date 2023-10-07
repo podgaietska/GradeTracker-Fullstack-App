@@ -48,6 +48,7 @@ def add_course(request):
     lecture_sections = ['L01', 'L02', 'L03', 'L04', 'L05']
     lab_sections = ['B01', 'B02', 'B03']
     seminar_sections = ['S01', 'S02', 'S03']
+    user = request.user
     
     context = {
             'grading_components' : grading_components,
@@ -55,6 +56,7 @@ def add_course(request):
             'lecture_sections': lecture_sections,
             'lab_sections': lab_sections,
             'seminar_sections': seminar_sections,
+            'user': user,
         }
     
     if request.method == 'GET':
@@ -124,7 +126,7 @@ def add_course(request):
         
         for grading_component, weight in zip(grading_components, weights):
             course_grading_component = CourseGradingComponent(
-                course = Course.objects.get(code=code),
+                course = Course.objects.get(code=code, owner=request.user),
                 grading_component = GradingComponent.objects.get(name=grading_component),
                 weight = weight          
             )
